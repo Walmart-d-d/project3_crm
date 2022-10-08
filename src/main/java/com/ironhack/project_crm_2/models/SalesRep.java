@@ -1,4 +1,4 @@
-package com.ironhack.project_crm_2.classes;
+package com.ironhack.project_crm_2.models;
 
 import javax.persistence.*;
 import java.util.Set;

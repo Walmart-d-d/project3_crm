@@ -1,33 +1,35 @@
-package com.ironhack.project_crm_2.classes;
+package com.ironhack.project_crm_2.models;
 
 import javax.persistence.*;
 
 @Entity
-public class Contact{
+@Table(name="contact_lead")
+public class Lead{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int leadId;
     private String name;
     private int phoneNumber;
     private String email;
     private String companyName;
-    @ManyToOne
-    @JoinColumn(name = "account_id")
-    private Account account;
 
-    public Contact(String name, int phoneNumber, String email, String companyName, Account account) {
+    @ManyToOne
+    @JoinColumn (name = "sales_rep_id")
+    private SalesRep salesRep;
+
+    public Lead() {
+    }
+
+    public Lead(String name, int phoneNumber, String email, String companyName, SalesRep salesRep) {
         setName(name);
         setPhoneNumber(phoneNumber);
         setEmail(email);
         setCompanyName(companyName);
-        setAccount(account);
-    }
-
-    public Contact() {
+        setSalesRep(salesRep);
     }
 
     public int getId() {
-        return id;
+        return leadId;
     }
 
     public String getName() {
@@ -62,22 +64,21 @@ public class Contact{
         this.companyName = companyName;
     }
 
-    public Account getAccount() {
-        return account;
+    public SalesRep getSalesRep() {
+        return salesRep;
     }
 
-    public void setAccount(Account account) {
-        this.account = account;
+    public void setSalesRep(SalesRep salesRep) {
+        this.salesRep = salesRep;
     }
 
     @Override
     public String toString() {
-        return  "-----\n"+
-                "Contact " +this.getId()+": \n" +
+        return "Lead " +this.getId()+": \n" +
                 "Contact name: " + this.getName() + '\n' +
                 "Telephone number: " + this.getPhoneNumber() + '\n'+
                 "E-mail address: " + this.getEmail() + '\n' +
                 "Company: " + this.getCompanyName() + '\n' +
-                "-----";
+                "==========================================";
     }
 }
