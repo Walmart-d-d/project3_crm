@@ -1,21 +1,35 @@
 package com.ironhack.project_crm_2.classes;
 
+import com.ironhack.project_crm_2.details.LeadInfo;
+import com.ironhack.project_crm_2.models.Lead;
+import com.ironhack.project_crm_2.respositories.LeadRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+
+
 import java.util.InputMismatchException;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
+
+
 
 public class Menu {
 
-    private static final Scanner input = new Scanner(System.in);
+    private final Scanner input = new Scanner(System.in);
+    private final Services services;
 
-    public static void mainMenu(){
+    @Autowired
+    public Menu(Services services) {
+        this.services = services;
+    }
+
+    public void mainMenu(){
         boolean selectValidOption = false;
+
 
         while(!selectValidOption){
             try {
-                String mainMenuOption = Menu.getInputMainMenu();
-                Menu.manageOptionMainMenu(mainMenuOption);
+                String mainMenuOption = getInputMainMenu();
+                manageOptionMainMenu(mainMenuOption);
                 selectValidOption = true;
             } catch (InputMismatchException e) {
                 System.err.println("Select a valid option");
@@ -23,7 +37,7 @@ public class Menu {
         }
     }
 
-    public static String getInputMainMenu() {
+    public String getInputMainMenu() {
         List<String> validOptions = List.of("1", "2", "3", "4");
 
         System.out.println("1. Leads");
@@ -38,7 +52,7 @@ public class Menu {
         return option;
     }
 
-    public static void manageOptionMainMenu(String option){
+    public void manageOptionMainMenu(String option){
         switch (option) {
             case "1":
                 leadMenu();
@@ -56,13 +70,13 @@ public class Menu {
         }
     }
 
-    public static void leadMenu(){
+    public void leadMenu(){
         boolean selectValidOption = false;
 
         while(!selectValidOption){
             try {
-                String mainMenuOption = Menu.getInputLeadMenu();
-                Menu.manageOptionLeadMenu(mainMenuOption);
+                String mainMenuOption = getInputLeadMenu();
+                manageOptionLeadMenu(mainMenuOption);
                 selectValidOption = true;
             } catch (InputMismatchException e) {
                 System.err.println("Select a valid option");
@@ -70,7 +84,7 @@ public class Menu {
         }
     }
 
-    public static String getInputLeadMenu(){
+    public String getInputLeadMenu(){
         List<String> validOptions = List.of("1", "2", "3", "4", "5");
 
         System.out.println("1. Create Lead");
@@ -86,10 +100,24 @@ public class Menu {
         return option;
     }
 
-    public static void manageOptionLeadMenu(String option){
+    /*void addLeadIntoDB(){
+
+        Form form = new Form();
+        Services
+        Lead lead = form.readLeadInfo();
+        System.out.println(lead.toString());
+
+    }*/
+
+
+    public void manageOptionLeadMenu(String option){
+
+            Form form = new Form();
             switch (option) {
                 case "1":
-                    System.out.println("create lead");
+                    LeadInfo lead = form.readLeadInfo();
+                    services.addLead(lead);
+                    //addLeadIntoDB(lead);
                     break;
                 case "2":
                     System.out.println("show leads");
