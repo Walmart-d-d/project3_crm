@@ -14,11 +14,11 @@ import java.util.Scanner;
 public class Menu {
 
     private final Scanner input = new Scanner(System.in);
-    private final LeadService services;
+    private final LeadService leadService;
 
     @Autowired
     public Menu(LeadService services) {
-        this.services = services;
+        this.leadService = services;
     }
 
     public void mainMenu(){
@@ -103,13 +103,14 @@ public class Menu {
     public void manageOptionLeadMenu(String option){
 
             Form form = new Form();
+
             switch (option) {
                 case "1":
                     LeadInfo lead = form.readLeadInfo();
-                    services.addLead(lead);
+                    leadService.addLead(lead);
                     break;
                 case "2":
-                    System.out.println("show leads");
+                    leadService.showAllLeads();
                     break;
                 case "3":
                     System.out.println("Show lead by id");

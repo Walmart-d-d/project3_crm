@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class LeadService {
@@ -26,6 +27,14 @@ public class LeadService {
         for (Lead lead: allLeads) {
             System.out.println(lead.toString());
         }
+    }
+
+    public void showLeadById(int id){
+        Optional<Lead> optionalLead = leadRepository.findById(id);
+        if(optionalLead.isPresent()) {
+            Lead searchedLead = optionalLead.get();
+            System.out.println(searchedLead.toString());
+        } else throw new IllegalArgumentException("Lead not found");
     }
 
 

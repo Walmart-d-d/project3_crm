@@ -16,6 +16,7 @@ import java.io.PrintStream;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 public class LeadServiceTests {
@@ -67,6 +68,35 @@ public class LeadServiceTests {
 
         assertEquals(expected, outputStreamCaptor.toString()
                 .trim());;
+    }
+
+    @Test
+    @DisplayName("Show Lead by invalid id - throw error")
+    void showLeadById_InvalidId_ThrowError(){
+        assertThrows(IllegalArgumentException.class, ()-> leadService.showLeadById(5));
+    }
+
+    @Test
+    @DisplayName("Show Lead by valid id - works ok")
+    void showLeadById_validId_WorksOk(){
+        Lead lead1 = new Lead ("Maria", 688345543, "maria@email.com", "netflix");
+        Lead newLead = leadRepository.save(lead1);
+
+        System.setOut(new PrintStream(outputStreamCaptor));
+        String hibernateMsg = "Hibernate: select lead0_.lead_id as lead_id1_2_0_, " +
+                "lead0_.company_name as company_2_2_0_, " +
+                "lead0_.email as email3_2_0_, lead0_.name as name4_2_0_, " + "lead0_.phone_number as phone_nu5_2_0_, " +
+                "lead0_.sales_rep_id as sales_re6_2_0_, " + "salesrep1_.id as id1_4_1_, salesrep1_.name as name2_4_1_ " +
+                "from contact_lead lead0_ left outer join sales_rep salesrep1_ " +
+                "on lead0_.sales_rep_id=salesrep1_.id where lead0_.lead_id=?";
+
+        String expected = hibernateMsg + '\n'+ newLead.toString();
+
+        leadService.showLeadById(newLead.getId());
+
+        assertEquals(expected, outputStreamCaptor.toString()
+                .trim());;
+
     }
 
 
