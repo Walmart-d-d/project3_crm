@@ -1,4 +1,4 @@
-package com.ironhack.project_crm_2.classes;
+package com.ironhack.project_crm_2.services;
 
 import com.ironhack.project_crm_2.details.LeadInfo;
 import com.ironhack.project_crm_2.models.Lead;
@@ -9,16 +9,23 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class Services {
+public class LeadService {
 
     private final LeadRepository leadRepository;
     @Autowired
-    public Services(LeadRepository leadRepository) {
+    public LeadService(LeadRepository leadRepository) {
         this.leadRepository = leadRepository;
     }
 
     public void addLead(LeadInfo leadinfo){
         leadRepository.save(new Lead(leadinfo.name, leadinfo.phoneNumber, leadinfo.email, leadinfo.companyName));
+    }
+
+    public void showAllLeads(){
+        List<Lead> allLeads = leadRepository.findAll();
+        for (Lead lead: allLeads) {
+            System.out.println(lead.toString());
+        }
     }
 
 

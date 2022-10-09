@@ -1,8 +1,7 @@
 package com.ironhack.project_crm_2.classes;
 
 import com.ironhack.project_crm_2.details.LeadInfo;
-import com.ironhack.project_crm_2.models.Lead;
-import com.ironhack.project_crm_2.respositories.LeadRepository;
+import com.ironhack.project_crm_2.services.LeadService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -15,10 +14,10 @@ import java.util.Scanner;
 public class Menu {
 
     private final Scanner input = new Scanner(System.in);
-    private final Services services;
+    private final LeadService services;
 
     @Autowired
-    public Menu(Services services) {
+    public Menu(LeadService services) {
         this.services = services;
     }
 
@@ -100,15 +99,6 @@ public class Menu {
         return option;
     }
 
-    /*void addLeadIntoDB(){
-
-        Form form = new Form();
-        Services
-        Lead lead = form.readLeadInfo();
-        System.out.println(lead.toString());
-
-    }*/
-
 
     public void manageOptionLeadMenu(String option){
 
@@ -117,7 +107,6 @@ public class Menu {
                 case "1":
                     LeadInfo lead = form.readLeadInfo();
                     services.addLead(lead);
-                    //addLeadIntoDB(lead);
                     break;
                 case "2":
                     System.out.println("show leads");

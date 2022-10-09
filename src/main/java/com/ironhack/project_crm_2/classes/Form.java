@@ -15,10 +15,11 @@ public class Form {
         String name = input.nextLine();
 
         System.out.println("Introduce telephone number:");
-        String phoneNumber = null;
-        while(!validPhoneNumber) {
+        int phoneNumber = 0;
+
+        while(!validPhoneNumber || phoneNumber == 0) {
             try {
-                phoneNumber = input.nextLine();
+                phoneNumber = Integer.parseInt(input.nextLine());
                 validPhoneNumber = true;
             } catch(IllegalArgumentException e){
                 System.err.println("Must enter a phone number.");
@@ -31,7 +32,6 @@ public class Form {
         System.out.println("Introduce the name of the company:");
         String companyName = input.nextLine();
 
-        return new LeadInfo(name, Integer.parseInt(phoneNumber), email, companyName);
-
+        return new LeadInfo(name, phoneNumber, email, companyName);
     }
 }
