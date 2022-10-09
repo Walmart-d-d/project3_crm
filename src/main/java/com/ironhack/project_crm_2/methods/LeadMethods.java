@@ -41,6 +41,7 @@ public class LeadMethods {
         while (email.isEmpty() || !email.contains("@")){
             System.err.println("You must enter a valid email address.");
             System.out.println("Please, enter an email address.");
+            email = input.nextLine();
         }
 
         System.out.println("Introduce the name of the company:");
@@ -48,6 +49,7 @@ public class LeadMethods {
         while (companyName.isEmpty()){
             System.err.println("You must enter a valid company name.");
             System.out.println("Introduce the name of the company:");
+            companyName = input.nextLine();
         }
 
         System.out.println("Introduce the identification number of the Sales Representative:");
