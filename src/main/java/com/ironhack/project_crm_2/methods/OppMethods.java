@@ -2,23 +2,25 @@ package com.ironhack.project_crm_2.methods;
 
 import com.ironhack.project_crm_2.enums.OppStatus;
 import com.ironhack.project_crm_2.enums.ProductType;
-import com.ironhack.project_crm_2.models.Contact;
-import com.ironhack.project_crm_2.models.Account;
-import com.ironhack.project_crm_2.models.Lead;
-import com.ironhack.project_crm_2.models.Opportunity;
+import com.ironhack.project_crm_2.models.*;
 import org.apache.commons.lang3.math.NumberUtils;
 import com.ironhack.project_crm_2.methods.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 public class OppMethods {
+    private static Scanner input = new Scanner (System.in);
 
-    protected Contact decisionMaker;
-    protected Opportunity opportunity;
-    protected Map<Integer, Opportunity> oppMap = new HashMap<>();
 
-    public Lead getLeadToConvert(Map<Integer, Lead> leadMap) {
+    private static Opportunity opportunity;
+
+    public static Lead getLeadToConvert(Map<Integer, Lead> leadMap) throws NoSuchFieldException {
+        if(leadMap.isEmpty()){
+            System.err.println("There are no existing Leads at the moment.");
+            Menu.leadMenu();
+        }
         System.out.println("Enter the identification number of the lead you want to convert:");
         String idString = input.nextLine();
 
@@ -40,16 +42,16 @@ public class OppMethods {
             }
             idInt = Integer.parseInt(idString);
         }
-        lead = leadMap.get(idInt);
+       Lead lead = leadMap.get(idInt);
         leadMap.remove(idInt);
         return lead;
     }
 
-    public void createDecisionMaker(Lead lead){
-        decisionMaker = new Contact(lead.getName(), lead.getPhoneNumber(), lead.getEmail(), lead.getCompanyName());
+    public static Contact createDecisionMaker(Lead lead){
+        return new Contact(lead.getName(), lead.getPhoneNumber(), lead.getEmail(), lead.getCompanyName());
     }
 
-    public void createOpportunity(Map<Integer, Opportunity> oppMap) {
+    public static Opportunity createOpportunity(Contact decisionMaker, SalesRep salesRep) {
         System.out.println("Choose product type:");
         System.out.println("1. Hybrid");
         System.out.println("2. Flatbed");
@@ -68,23 +70,21 @@ public class OppMethods {
                 break;
             default:
                 System.err.println("Invalid option.");
-                createOpportunity(oppMap);
+                createOpportunity(decisionMaker, salesRep);
         }
         System.out.println("Number of products:");
         String numberOfProducts = input.nextLine();
-        while (!NumberUtils.isParsable(numberOfProducts)) {
+        while (!NumberUtils.isParsable(numberOfProducts) || numberOfProducts.isEmpty()) {
             System.err.println("The quantity must be written in numbers.");
             System.out.println("Please, enter the number of products:");
             numberOfProducts = input.nextLine();
         }
         int quantity = Integer.parseInt(numberOfProducts);
         OppStatus status = OppStatus.OPEN;
-        opportunity = new Opportunity(productType, decisionMaker, quantity, status);
-        oppMap.put(opportunity.getId(), opportunity);
-        createAccount(accountMap);
+        return new Opportunity(productType, decisionMaker, quantity, status, salesRep);
     }
 
-    public Opportunity createOppInAccount(Account account){
+    public static Opportunity createOppInAccount(Account account, Contact decisionMaker, SalesRep salesRep){
         System.out.println("Choose product type:");
         System.out.println("1. Hybrid");
         System.out.println("2. Flatbed");
@@ -103,29 +103,30 @@ public class OppMethods {
                 break;
             default:
                 System.err.println("Not a valid option.");
-                createOppInAccount(account);
+                createOppInAccount(account, decisionMaker, salesRep);
         }
         System.out.println("Number of products:");
         String numberOfProducts = input.nextLine();
-        while (!NumberUtils.isParsable(numberOfProducts)) {
+        while (!NumberUtils.isParsable(numberOfProducts) || numberOfProducts.isEmpty()) {
             System.err.println("Invalid value.");
             System.out.println("Please, enter the quantity of products in numbers:");
             numberOfProducts = input.nextLine();
         }
         int quantity = Integer.parseInt(numberOfProducts);
         OppStatus status = OppStatus.OPEN;
-        opportunity = new Opportunity(productType, decisionMaker, quantity, status);
-        oppMap.put(opportunity.getId(), opportunity);
-        account.addContactList(decisionMaker);
-        account.addOpportunityList(opportunity);
+        opportunity = new Opportunity(productType, decisionMaker, quantity, status, account, salesRep);
         return opportunity;
     }
-    public void showAllOpportunities(){
+    public static void showAllOpportunities(Map<Integer, Opportunity> oppMap){
         for(Map.Entry<Integer, Opportunity> opportunityEntry : oppMap.entrySet()){
             System.out.println(opportunityEntry.getValue());
         }
     }
-    public void changeStatus(Map<Integer, Opportunity> oppMap) {
+    public static void changeStatus(Map<Integer, Opportunity> oppMap) throws NoSuchFieldException {
+        if (oppMap.isEmpty()){
+            System.err.println("There are no existing opportunities.");
+            Menu.leadMenu();
+        }
         System.out.println("Select opportunity by identification number:");
         String oppId = input.nextLine();
         while(!NumberUtils.isParsable(oppId)){

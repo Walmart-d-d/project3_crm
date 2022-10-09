@@ -28,6 +28,14 @@ public class Opportunity {
     public Opportunity() {
     }
 
+    public Opportunity(ProductType product, Contact decisionMaker, int quantity, OppStatus status, SalesRep salesRep) {
+        setProduct(product);
+        setDecisionMaker(decisionMaker);
+        setQuantity(quantity);
+        setStatus(status);
+        setSalesRep(salesRep);
+    }
+
     public Opportunity(ProductType product, Contact decisionMaker, int quantity, OppStatus status, Account account, SalesRep salesRep) {
         setProduct(product);
         setDecisionMaker(decisionMaker);

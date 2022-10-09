@@ -15,6 +15,13 @@ public class Contact{
     @JoinColumn(name = "account_id")
     private Account account;
 
+    public Contact(String name, int phoneNumber, String email, String companyName) {
+        setName(name);
+        setPhoneNumber(phoneNumber);
+        setEmail(email);
+        setCompanyName(companyName);
+    }
+
     public Contact(String name, int phoneNumber, String email, String companyName, Account account) {
         setName(name);
         setPhoneNumber(phoneNumber);

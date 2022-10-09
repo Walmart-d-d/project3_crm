@@ -9,20 +9,28 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class LeadMethods {
-    protected Scanner input = new Scanner (System.in);
-    protected int salesRepIdInt;
-    protected Map<Integer, Lead> leadMap = new HashMap<>();
-    protected Map<Integer, SalesRep> salesRepMap = new HashMap<>();
+    private static Scanner input = new Scanner (System.in);
 
-    public Map<String, String> getLeadInfo(){
+    private Map<Integer, SalesRep> salesRepMap = new HashMap<>();
+
+    public static Map<String, String> getLeadInfo(Map<Integer, Lead> leadMap, Map<Integer, SalesRep> salesRepMap) throws NoSuchFieldException {
+        if (salesRepMap.isEmpty()){
+            System.err.println("You have no Sales Representatives. Please, create a Sales Representative you can attach a Lead to first.");
+            Menu.leadMenu();
+        }
         Map<String, String> leadInfo = new HashMap<>();
 
         System.out.println("Introduce name:");
         String name = input.nextLine();
+        while (name.isEmpty()){
+            System.err.println("You must enter a name");
+            System.out.println("Please, introduce name:");
+            name = input.nextLine();
+        }
 
         System.out.println("Introduce telephone number:");
         String phone = input.nextLine();
-        while(!NumberUtils.isParsable(phone)){
+        while (phone.isEmpty() || !NumberUtils.isParsable(phone)) {
             System.err.println("Must enter a phone number.");
             System.out.println("Please, introduce telephone number:");
             phone = input.nextLine();
@@ -30,9 +38,17 @@ public class LeadMethods {
 
         System.out.println("Introduce email address:");
         String email = input.nextLine();
+        while (email.isEmpty() || !email.contains("@")){
+            System.err.println("You must enter a valid email address.");
+            System.out.println("Please, enter an email address.");
+        }
 
         System.out.println("Introduce the name of the company:");
         String companyName = input.nextLine();
+        while (companyName.isEmpty()){
+            System.err.println("You must enter a valid company name.");
+            System.out.println("Introduce the name of the company:");
+        }
 
         System.out.println("Introduce the identification number of the Sales Representative:");
         String salesRepId = input.nextLine();
@@ -41,7 +57,8 @@ public class LeadMethods {
             System.out.println("Please, enter the identification number of the Sales Representative:");
             salesRepId = input.nextLine();
         }
-        salesRepIdInt = Integer.parseInt(salesRepId);
+        int salesRepIdInt = Integer.parseInt(salesRepId);
+
 
         while (!leadMap.containsKey(salesRepIdInt)) {
             System.err.println("Sales Representative not found.");
@@ -59,28 +76,29 @@ public class LeadMethods {
                 "name", name,
                 "phone", phone,
                 "email", email,
-                "companyName", companyName
+                "companyName", companyName,
+                "salesRepId", salesRepId
         );
 
         return leadInfo;
     }
 
-    public Lead createLead(Map<String, String> leadInfo){
-        return new Lead (leadInfo.get("name"), Integer.parseInt(leadInfo.get("phone")), leadInfo.get("email"), leadInfo.get("companyName"), salesRepMap.get(salesRepIdInt));
+    public static Lead createLead(Map<String, String> leadInfo, Map<Integer, SalesRep> salesRepMap){
+        return new Lead (leadInfo.get("name"), Integer.parseInt(leadInfo.get("phone")), leadInfo.get("email"), leadInfo.get("companyName"), salesRepMap.get(Integer.parseInt(leadInfo.get("salesRepId"))));
     }
 
 
-    public void showLeadMap(){
+    public static void showLeadMap(Map<Integer, Lead> leadMap){
         for(Map.Entry<Integer, Lead> leadEntry : leadMap.entrySet()){
             System.out.println(leadEntry.getValue());
         }
     }
 
-    public void removeFromLeadMap(int idInt){
+    public static void removeFromLeadMap(int idInt, Map<Integer, Lead> leadMap){
         leadMap.remove(idInt);
     }
 
-    public void showLeadById() throws NoSuchFieldException {
+    public static void showLeadById(Map<Integer,Lead> leadMap) throws NoSuchFieldException {
         System.out.println("Enter the identification number of the Lead you want to see:"); //hay que hacer catch
         String idString = input.nextLine();
         while(!NumberUtils.isParsable(idString)){
@@ -95,6 +113,4 @@ public class LeadMethods {
             throw new NoSuchFieldException("Lead does not exist.");
         }
     }
-
-
 }
