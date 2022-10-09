@@ -6,6 +6,7 @@ import com.ironhack.project_crm_2.methods.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 
 public class Menu {
     private static Map<Integer, Lead> leadMap = new HashMap<>();
@@ -87,7 +88,8 @@ public class Menu {
         switch (option){
             case "1":
                 Map<String, String> leadInfo = LeadMethods.getLeadInfo(leadMap, salesRepMap);
-                Lead lead = LeadMethods.createLead(leadInfo, salesRepMap);
+                lead = LeadMethods.createLead(leadInfo, salesRepMap);
+                salesRepMap.get(Integer.parseInt(leadInfo.get("salesRepId"))).getLeadSet().add(lead);
                 leadMap.put(lead.getId(), lead);
                 System.out.println("A new Lead has been created:");
                 System.out.println(lead);
@@ -137,6 +139,7 @@ public class Menu {
                 salesRep = lead.getSalesRep();
                 decisionMaker = OppMethods.createDecisionMaker(lead);
                 opportunity = OppMethods.createOpportunity(decisionMaker, salesRep);
+                salesRep.getOppSet().add(opportunity);
                 LeadMethods.removeFromLeadMap(lead.getId(), leadMap);
                 account = AccMethods.createAccount(opportunity, decisionMaker);
                 opportunity.setAccount(account);
@@ -154,6 +157,7 @@ public class Menu {
                 decisionMaker = OppMethods.createDecisionMaker(lead);
                 account = AccMethods.selectAccount(accountMap);
                 opportunity = OppMethods.createOppInAccount(account, decisionMaker, salesRep);
+                salesRep.getOppSet().add(opportunity);
                 oppMap.put(opportunity.getId(), opportunity);
                 account.addContactList(decisionMaker);
                 account.addOpportunityList(opportunity);

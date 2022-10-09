@@ -18,11 +18,6 @@ private Set<Opportunity> oppSet;
     public SalesRep() {
     }
 
-    public SalesRep(String name) {
-        setName(name);
-        this.id = id;
-    }
-
     public SalesRep(String name, Set<Lead> leadSet, Set<Opportunity> oppSet) {
         setName(name);
        setLeadSet(leadSet);
