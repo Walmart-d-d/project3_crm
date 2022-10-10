@@ -50,30 +50,31 @@ public class LeadServiceTests {
     }
 
     @Test
-    @DisplayName("Show leads from repository")
-    void showAllLeads_WorksOk(){
+    @DisplayName("Get all leads from repository")
+    void getAll_WorksOk(){
         Lead lead1 = new Lead ("Maria", 688345543, "maria@email.com", "netflix");
         Lead lead2 = new Lead ("Juan", 677898789, "Juan@email.com", "hbo");
         leadRepository.saveAll(List.of(lead1, lead2 ));
 
+        assertEquals(2, leadService.getAll().size());
 
+/*
         System.setOut(new PrintStream(outputStreamCaptor));
         String hibernateMsg = "Hibernate: select lead0_.lead_id as lead_id1_2_, lead0_.company_name as company_2_2_, " +
                 "lead0_.email as email3_2_, lead0_.name as name4_2_, lead0_.phone_number as phone_nu5_2_, " +
                 "lead0_.sales_rep_id as sales_re6_2_ from contact_lead lead0_";
 
-        String expected = hibernateMsg + '\n'+ lead1.toString() + '\n'+ lead2.toString();
+        String expected = hibernateMsg + '\n'+ lead1.toString() + '\n'+ lead2.toString();*/
 
-        leadService.showAllLeads();
 
-        assertEquals(expected, outputStreamCaptor.toString()
-                .trim());;
+       /* assertEquals(expected, outputStreamCaptor.toString()
+                .trim());;*/
     }
 
     @Test
     @DisplayName("Show Lead by invalid id - throw error")
     void showLeadById_InvalidId_ThrowError(){
-        assertThrows(IllegalArgumentException.class, ()-> leadService.showLeadById(5));
+        assertThrows(IllegalArgumentException.class, ()-> leadService.getById(5));
     }
 
     @Test
@@ -82,7 +83,9 @@ public class LeadServiceTests {
         Lead lead1 = new Lead ("Maria", 688345543, "maria@email.com", "netflix");
         Lead newLead = leadRepository.save(lead1);
 
-        System.setOut(new PrintStream(outputStreamCaptor));
+        assertEquals("Maria", leadService.getById(newLead.getId()).getName());
+
+       /* System.setOut(new PrintStream(outputStreamCaptor));
         String hibernateMsg = "Hibernate: select lead0_.lead_id as lead_id1_2_0_, " +
                 "lead0_.company_name as company_2_2_0_, " +
                 "lead0_.email as email3_2_0_, lead0_.name as name4_2_0_, " + "lead0_.phone_number as phone_nu5_2_0_, " +
@@ -90,32 +93,12 @@ public class LeadServiceTests {
                 "from contact_lead lead0_ left outer join sales_rep salesrep1_ " +
                 "on lead0_.sales_rep_id=salesrep1_.id where lead0_.lead_id=?";
 
-        String expected = hibernateMsg + '\n'+ newLead.toString();
+        String expected = hibernateMsg + '\n'+ newLead.toString();*/
 
-        leadService.showLeadById(newLead.getId());
 
-        assertEquals(expected, outputStreamCaptor.toString()
+       /* assertEquals(expected, outputStreamCaptor.toString()
                 .trim());;
-
+*/
     }
 
-
-
-   /* @Test
-    @DisplayName("Add new lead into db")
-    void addLeadIntoDB_WorksOk(){
-        String userInput = String.format("Antonia%s669789987%santo@mail.com%sNetflix",
-                System.lineSeparator(),
-                System.lineSeparator(),
-                System.lineSeparator());
-        ByteArrayInputStream bais = new ByteArrayInputStream(userInput.getBytes());
-        System.setIn(bais);
-
-        Optional<Lead> optionalLead = Optional.of(Services.addLeadIntoDB(leadRepository));
-        Assertions.assertTrue(optionalLead.isPresent());
-        Lead newLead = optionalLead.get();
-        System.out.println(leadRepository);
-        System.out.println(newLead.toString());
-        assertEquals("Antonia", newLead.getName());
-    }*/
 }

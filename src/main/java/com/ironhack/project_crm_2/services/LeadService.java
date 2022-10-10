@@ -22,19 +22,17 @@ public class LeadService {
         leadRepository.save(new Lead(leadinfo.name, leadinfo.phoneNumber, leadinfo.email, leadinfo.companyName));
     }
 
-    public void showAllLeads(){
-        List<Lead> allLeads = leadRepository.findAll();
-        for (Lead lead: allLeads) {
-            System.out.println(lead.toString());
-        }
+    public List<Lead> getAll(){
+        return leadRepository.findAll();
     }
 
-    public void showLeadById(int id){
+    public Lead getById(int id){
         Optional<Lead> optionalLead = leadRepository.findById(id);
         if(optionalLead.isPresent()) {
-            Lead searchedLead = optionalLead.get();
-            System.out.println(searchedLead.toString());
-        } else throw new IllegalArgumentException("Lead not found");
+            return optionalLead.get();
+        } else {
+            throw new IllegalArgumentException("Lead not found");
+        }
     }
 
 
