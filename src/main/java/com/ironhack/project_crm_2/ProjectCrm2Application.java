@@ -1,7 +1,6 @@
 package com.ironhack.project_crm_2;
 
-import com.ironhack.project_crm_2.classes.Menu;
-import com.ironhack.project_crm_2.models.Account;
+import com.ironhack.project_crm_2.classes.menus.Menu;
 import com.ironhack.project_crm_2.respositories.AccountRepository;
 import com.ironhack.project_crm_2.respositories.ContactRepository;
 import com.ironhack.project_crm_2.services.AccountService;

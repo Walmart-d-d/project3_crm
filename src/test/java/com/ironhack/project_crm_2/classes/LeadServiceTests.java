@@ -45,7 +45,7 @@ public class LeadServiceTests {
     @DisplayName("Add new lead in db from lead info")
     void addLead_WorksOk(){
         LeadInfo leadInfo = new LeadInfo("Juan", 677898789, "Juan@email.com", "hbo");
-        leadService.addLead(leadInfo);
+        leadService.add(leadInfo);
         assertEquals("Juan", leadRepository.findByName("Juan").get(0).getName());
     }
 

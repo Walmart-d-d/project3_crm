@@ -33,7 +33,7 @@ public class AccountService {
         if(optionalAccount.isPresent()) {
             return optionalAccount.get();
         } else {
-            throw new IllegalArgumentException("Lead not found");
+            throw new IllegalArgumentException("Account not found");
         }
     }
 
