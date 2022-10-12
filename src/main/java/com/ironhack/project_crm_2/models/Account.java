@@ -5,6 +5,7 @@ package com.ironhack.project_crm_2.models;
 import com.ironhack.project_crm_2.enums.IndustryOption;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity

@@ -1,6 +1,4 @@
 package com.ironhack.project_crm_2.details;
-
-import com.ironhack.project_crm_2.classes.Utils;
 import com.ironhack.project_crm_2.enums.IndustryOption;
 
 

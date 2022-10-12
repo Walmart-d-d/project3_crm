@@ -1,8 +1,6 @@
 package com.ironhack.project_crm_2.classes.menus;
-
 import com.ironhack.project_crm_2.classes.Utils;
 import com.ironhack.project_crm_2.details.LeadInfo;
-import com.ironhack.project_crm_2.details.SalesRepInfo;
 import com.ironhack.project_crm_2.models.Lead;
 import com.ironhack.project_crm_2.models.SalesRep;
 import com.ironhack.project_crm_2.services.*;
@@ -60,7 +58,7 @@ public class LeadMenu {
                 case "4": //Convert Lead into Opportunity
                     OpportunityMenu oppMenu = new OpportunityMenu(
                             LEAD_SERVICE, CONTACT_SERVICE, ACCOUNT_SERVICE,
-                            OPPORTUNITY_SERVICE, SALES_REP_SERVICE);
+                            OPPORTUNITY_SERVICE);
                     oppMenu.convertLeadIntoOpportunity();
                     break;
                 case "5":   // go back
@@ -70,7 +68,6 @@ public class LeadMenu {
             }
         }
     }
-
 
 
     public LeadInfo requestLeadInfo() {
@@ -85,9 +82,10 @@ public class LeadMenu {
 
 
     public SalesRep getSalesRep() {
+        SalesRepMenu salesRepMenu = new SalesRepMenu(SALES_REP_SERVICE);
         if (SALES_REP_SERVICE.isEmptyList()) {
             System.err.println("Sales representative list is empty.");
-            return addNewSalesRep();
+            return salesRepMenu.addNewSalesRep();
         } else {
             while(true) {
                 int salesRepId = Utils.promptForInt("Select sales representative by Id: ");
@@ -100,25 +98,16 @@ public class LeadMenu {
         }
     }
 
-    public SalesRep addNewSalesRep() {
-        System.out.println("ADD NEW SALES REPRESENTATIVE");
-        SalesRepInfo salesRepInfo = new SalesRepInfo(Utils.promptForString("Enter name: "));
-        return SALES_REP_SERVICE.add(salesRepInfo);
-    }
-
 
     public void showById() {
-        while (true) {
             int id = Utils.promptForInt("Enter a valid lead ID: ");
             try {
                 Lead searchedLead = LEAD_SERVICE.getById(id);
                 System.out.println(searchedLead.toString());
-                break;
             } catch (IllegalArgumentException | InputMismatchException e) {
                 System.err.println(e.getMessage());
             }
         }
-    }
 
     public void showLeads() {
         List<Lead> allLeads = LEAD_SERVICE.getAll();
