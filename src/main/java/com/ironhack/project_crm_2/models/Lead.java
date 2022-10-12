@@ -1,5 +1,7 @@
 package com.ironhack.project_crm_2.models;
 
+import org.apache.commons.lang3.math.NumberUtils;
+
 import javax.persistence.*;
 
 @Entity
@@ -28,6 +30,13 @@ public class Lead{
         setSalesRep(salesRep);
     }
 
+    public Lead(String name, int phoneNumber, String email, String companyName) {
+        setName(name);
+        setPhoneNumber(phoneNumber);
+        setEmail(email);
+        setCompanyName(companyName);
+    }
+
     public int getId() {
         return leadId;
     }
@@ -46,6 +55,12 @@ public class Lead{
 
     public void setPhoneNumber(int phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        if (!NumberUtils.isParsable(phoneNumber)) {
+            throw new IllegalArgumentException("Must be a phone number");
+        } else this.phoneNumber = Integer.parseInt(phoneNumber);
     }
 
     public String getEmail() {
@@ -71,6 +86,7 @@ public class Lead{
     public void setSalesRep(SalesRep salesRep) {
         this.salesRep = salesRep;
     }
+
 
     @Override
     public String toString() {

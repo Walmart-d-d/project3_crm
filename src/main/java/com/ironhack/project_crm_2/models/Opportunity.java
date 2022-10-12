@@ -12,10 +12,12 @@ public class Opportunity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Enumerated(EnumType.STRING)
     private ProductType product;
     @OneToOne
     private Contact decisionMaker;
     private int quantity;
+    @Enumerated(EnumType.STRING)
     private OppStatus status;
     @ManyToOne
     @JoinColumn(name = "account_id")
@@ -36,6 +38,7 @@ public class Opportunity {
         setAccount(account);
         setSalesRep(salesRep);
     }
+
 
     public Account getAccount() {
         return account;
