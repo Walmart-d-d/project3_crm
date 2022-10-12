@@ -55,4 +55,11 @@ private Set<Opportunity> oppSet;
     public void setLeadSet(Set<Lead> leadSet) {
         this.leadSet = leadSet;
     }
-}
+
+    @Override
+    public String toString() {
+        return "Sales Representative " +this.getId()+":\n"+
+                "Name: " + this.getName() +"\n"+
+                "==========================================";
+            }
+        }

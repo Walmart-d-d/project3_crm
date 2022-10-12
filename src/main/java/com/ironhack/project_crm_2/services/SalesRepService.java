@@ -1,13 +1,11 @@
 package com.ironhack.project_crm_2.services;
-
-import com.ironhack.project_crm_2.details.LeadInfo;
 import com.ironhack.project_crm_2.details.SalesRepInfo;
-import com.ironhack.project_crm_2.models.Lead;
 import com.ironhack.project_crm_2.models.SalesRep;
 import com.ironhack.project_crm_2.respositories.SalesRepRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,6 +19,10 @@ public class SalesRepService {
     }
     public SalesRep add(SalesRepInfo repInfo){
         return SALES_REP_REPOSITORY.save(new SalesRep(repInfo.name));
+    }
+
+    public List<SalesRep> getAll() {
+        return SALES_REP_REPOSITORY.findAll();
     }
 
     public SalesRep getById(int id){
