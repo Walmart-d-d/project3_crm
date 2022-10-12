@@ -74,6 +74,7 @@ public class AccountMenu {
     }
 
     public ContactInfo requestContactInfo(){
+        System.out.println("CREATE NEW CONTACT");
         return new ContactInfo(
                 Utils.promptForString("Name: "),
                 Utils.promptForPhoneNumber("PhoneNumber: "),
@@ -86,7 +87,7 @@ public class AccountMenu {
 
     public Account requestAccountById(){
         while (true){
-            int id = Utils.promptForInt("Enter account Id");
+            int id = Utils.promptForInt("Enter account Id: ");
             try {
                 return ACCOUNT_SERVICE.getById(id);
             } catch (IllegalArgumentException | InputMismatchException e) {
@@ -108,6 +109,7 @@ public class AccountMenu {
 
 
     public AccountInfo requestAccountInfo() {
+        System.out.println("CREATE NEW ACCOUNT");
         return new AccountInfo(
                 requestIndustryOption(),
                 Utils.promptForInt("Number of employees: "),

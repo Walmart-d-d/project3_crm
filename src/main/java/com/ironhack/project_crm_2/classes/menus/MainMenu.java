@@ -1,4 +1,5 @@
 package com.ironhack.project_crm_2.classes.menus;
+import com.ironhack.project_crm_2.models.SalesRep;
 import com.ironhack.project_crm_2.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -28,7 +29,8 @@ public class MainMenu {
         System.out.println("1. Leads");
         System.out.println("2. Opportunities");
         System.out.println("3. Accounts");
-        System.out.println("4. Exit");
+        System.out.println("4. Sales representatives");
+        System.out.println("5. Exit");
     }
 
     public void mainMenu() {
@@ -48,7 +50,11 @@ public class MainMenu {
                     AccountMenu accountMenu = new AccountMenu(LEAD_SERVICE, CONTACT_SERVICE, ACCOUNT_SERVICE, OPPORTUNITY_SERVICE, SALES_REP_SERVICE);
                     accountMenu.accountMenu();
                     break;
-                case "4":   // Exit
+                case "4": //Sales representative
+                    SalesRepMenu salesRepMenu = new SalesRepMenu(SALES_REP_SERVICE);
+                    salesRepMenu.salesRepMenu();
+                    break;
+                case "5":   // Exit
                     System.exit(0);
                 default:
                     System.err.println("Please select a valid option");;

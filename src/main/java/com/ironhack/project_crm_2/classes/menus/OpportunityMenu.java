@@ -50,9 +50,13 @@ public class OpportunityMenu {
                     showOpportunities();
                     break ;
                 case "2":  //Change status of an opportunity
-                    Opportunity opportunity = getOpportunityToUpdate();
-                    updateOpportunityStatus(opportunity.getId());
-                    return;
+                    try {
+                        Opportunity opportunity = getOpportunityToUpdate();
+                        updateOpportunityStatus(opportunity.getId());
+                    } catch (IllegalArgumentException e) {
+                        System.err.println(e.getMessage());
+                    }
+                    break;
                 case "3": // Go back
                     return;
                 default:
@@ -92,17 +96,11 @@ public class OpportunityMenu {
     }
 
     public Opportunity getOpportunityToUpdate(){
-        while(true){
-            try{
-                int id = Utils.promptForInt("Enter a valid opportunity ID: ");
-                Opportunity opportunityToUpdate = OPPORTUNITY_SERVICE.getById(id);
-                System.out.println(opportunityToUpdate.toString());
-                return opportunityToUpdate;
-            } catch (IllegalArgumentException e) {
-                System.err.println(e.getMessage());
-            }
+            int id = Utils.promptForInt("Enter a valid opportunity ID: ");
+            Opportunity opportunityToUpdate = OPPORTUNITY_SERVICE.getById(id);
+            System.out.println(opportunityToUpdate.toString());
+            return opportunityToUpdate;
         }
-    }
 
     public void showOpportunities(){
         List<Opportunity> list = OPPORTUNITY_SERVICE.getAll();
@@ -164,6 +162,12 @@ public class OpportunityMenu {
         System.out.println("2. Associate to existent account");
     }
 
+    public Account createAccountByRequest(){
+        AccountMenu accountMenu = new AccountMenu(LEAD_SERVICE, CONTACT_SERVICE, ACCOUNT_SERVICE, OPPORTUNITY_SERVICE, SALES_REP_SERVICE);
+        AccountInfo accountInfo = accountMenu.requestAccountInfo();
+        return ACCOUNT_SERVICE.createAccount(accountInfo);
+    }
+
 
     public Account selectAccountForOpportunity(){
         AccountMenu accountMenu = new AccountMenu(LEAD_SERVICE, CONTACT_SERVICE, ACCOUNT_SERVICE, OPPORTUNITY_SERVICE, SALES_REP_SERVICE);
@@ -172,12 +176,11 @@ public class OpportunityMenu {
         while (true) {
             switch (choice) {
                 case "1": //Create account
-                    AccountInfo accountInfo = accountMenu.requestAccountInfo();
-                    return ACCOUNT_SERVICE.createAccount(accountInfo);
+                   return createAccountByRequest();
                 case "2":  //Select account by id
                     if(ACCOUNT_SERVICE.isEmptyList()) {
                         System.err.println("Account list is empty.");
-                        break;
+                        return createAccountByRequest();
                     } else return accountMenu.requestAccountById();
                 default:
                     System.err.println("Please select a valid option");

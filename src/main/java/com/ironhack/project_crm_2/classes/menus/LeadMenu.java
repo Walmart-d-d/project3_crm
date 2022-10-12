@@ -85,9 +85,10 @@ public class LeadMenu {
 
 
     public SalesRep getSalesRep() {
+        SalesRepMenu salesRepMenu = new SalesRepMenu(SALES_REP_SERVICE);
         if (SALES_REP_SERVICE.isEmptyList()) {
             System.err.println("Sales representative list is empty.");
-            return addNewSalesRep();
+            return salesRepMenu.addNewSalesRep();
         } else {
             while(true) {
                 int salesRepId = Utils.promptForInt("Select sales representative by Id: ");
@@ -100,25 +101,16 @@ public class LeadMenu {
         }
     }
 
-    public SalesRep addNewSalesRep() {
-        System.out.println("ADD NEW SALES REPRESENTATIVE");
-        SalesRepInfo salesRepInfo = new SalesRepInfo(Utils.promptForString("Enter name: "));
-        return SALES_REP_SERVICE.add(salesRepInfo);
-    }
-
 
     public void showById() {
-        while (true) {
             int id = Utils.promptForInt("Enter a valid lead ID: ");
             try {
                 Lead searchedLead = LEAD_SERVICE.getById(id);
                 System.out.println(searchedLead.toString());
-                break;
             } catch (IllegalArgumentException | InputMismatchException e) {
                 System.err.println(e.getMessage());
             }
         }
-    }
 
     public void showLeads() {
         List<Lead> allLeads = LEAD_SERVICE.getAll();
