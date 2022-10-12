@@ -1,13 +1,8 @@
 package com.ironhack.project_crm_2.services;
-
-import com.ironhack.project_crm_2.classes.Utils;
 import com.ironhack.project_crm_2.details.AccountInfo;
 import com.ironhack.project_crm_2.models.Account;
-import com.ironhack.project_crm_2.models.Opportunity;
 import com.ironhack.project_crm_2.respositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Optional;
 

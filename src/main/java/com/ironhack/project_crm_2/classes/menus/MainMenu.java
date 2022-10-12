@@ -43,11 +43,11 @@ public class MainMenu {
                     menu.leadMenu();
                     break;
                 case "2":   // Display opportunities menu
-                    OpportunityMenu oppMenu = new OpportunityMenu(LEAD_SERVICE, CONTACT_SERVICE, ACCOUNT_SERVICE, OPPORTUNITY_SERVICE, SALES_REP_SERVICE);
+                    OpportunityMenu oppMenu = new OpportunityMenu(LEAD_SERVICE, CONTACT_SERVICE, ACCOUNT_SERVICE, OPPORTUNITY_SERVICE);
                     oppMenu.oppMenu();
                     break;
                 case "3":   // Display accounts menu
-                    AccountMenu accountMenu = new AccountMenu(LEAD_SERVICE, CONTACT_SERVICE, ACCOUNT_SERVICE, OPPORTUNITY_SERVICE, SALES_REP_SERVICE);
+                    AccountMenu accountMenu = new AccountMenu(CONTACT_SERVICE, ACCOUNT_SERVICE);
                     accountMenu.accountMenu();
                     break;
                 case "4": //Sales representative
@@ -59,7 +59,6 @@ public class MainMenu {
                 default:
                     System.err.println("Please select a valid option");;
             }
-
         }
     }
 

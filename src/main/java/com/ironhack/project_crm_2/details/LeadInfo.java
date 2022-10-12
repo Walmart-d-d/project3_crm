@@ -1,8 +1,5 @@
 package com.ironhack.project_crm_2.details;
-
-
 import com.ironhack.project_crm_2.models.SalesRep;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class LeadInfo {
 

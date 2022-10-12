@@ -21,16 +21,14 @@ public class OpportunityMenu {
     private final ContactService CONTACT_SERVICE;
     private final AccountService ACCOUNT_SERVICE;
     private final OpportunityService OPPORTUNITY_SERVICE;
-    private final SalesRepService SALES_REP_SERVICE;
 
     @Autowired
     public OpportunityMenu(LeadService leadService, ContactService contactService, AccountService accountService,
-                           OpportunityService opportunityService, SalesRepService salesRepService) {
+                           OpportunityService opportunityService) {
         this.LEAD_SERVICE = leadService;
         this.CONTACT_SERVICE = contactService;
         this.ACCOUNT_SERVICE = accountService;
         this.OPPORTUNITY_SERVICE = opportunityService;
-        this.SALES_REP_SERVICE = salesRepService;
     }
 
     public void displayOpportunityMenu(){
@@ -65,6 +63,24 @@ public class OpportunityMenu {
         }
     }
 
+    public void showOpportunities(){
+        List<Opportunity> list = OPPORTUNITY_SERVICE.getAll();
+        if (list.size() == 0) {
+            System.out.println("Empty list");
+        } else {
+            for (Opportunity opportunity : list) {
+                System.out.println(opportunity.toString());
+            }
+        }
+    }
+
+    public Opportunity getOpportunityToUpdate(){
+        int id = Utils.promptForInt("Enter a valid opportunity ID: ");
+        Opportunity opportunityToUpdate = OPPORTUNITY_SERVICE.getById(id);
+        System.out.println(opportunityToUpdate.toString());
+        return opportunityToUpdate;
+    }
+
     public void displayOppStatus() {
         System.out.println("1. Open");
         System.out.println("2. Closed Won");
@@ -95,23 +111,7 @@ public class OpportunityMenu {
         }
     }
 
-    public Opportunity getOpportunityToUpdate(){
-            int id = Utils.promptForInt("Enter a valid opportunity ID: ");
-            Opportunity opportunityToUpdate = OPPORTUNITY_SERVICE.getById(id);
-            System.out.println(opportunityToUpdate.toString());
-            return opportunityToUpdate;
-        }
 
-    public void showOpportunities(){
-        List<Opportunity> list = OPPORTUNITY_SERVICE.getAll();
-        if (list.size() == 0) {
-            System.out.println("Empty list");
-        } else {
-            for (Opportunity opportunity : list) {
-                System.out.println(list.toString());
-            }
-        }
-    }
 
     public void convertLeadIntoOpportunity() {
         if (LEAD_SERVICE.isEmptyList()) {
@@ -124,7 +124,7 @@ public class OpportunityMenu {
             contactInfo.account = account;
             Contact decisionMaker = CONTACT_SERVICE.createContact(contactInfo);
             OpportunityInfo opportunityInfo = getOpportunityInfo(decisionMaker, account, salesRep);
-            Opportunity newOpportunity = OPPORTUNITY_SERVICE.createOpportunity(opportunityInfo);
+            OPPORTUNITY_SERVICE.createOpportunity(opportunityInfo);
             LEAD_SERVICE.delete(leadToConvert.getId());
         }
     }
@@ -140,6 +140,16 @@ public class OpportunityMenu {
                     System.err.println(e.getMessage());
                 }
             }
+    }
+
+    public ContactInfo getInfoLeadToConvert(Lead lead){
+        return new ContactInfo(
+                lead.getId(),
+                lead.getName(),
+                lead.getPhoneNumber(),
+                lead.getEmail(),
+                lead.getCompanyName(),
+                null);
     }
 
     public OpportunityInfo getOpportunityInfo(Contact decisionMaker, Account account, SalesRep salesRep) {
@@ -162,44 +172,25 @@ public class OpportunityMenu {
         System.out.println("2. Associate to existent account");
     }
 
-    public Account createAccountByRequest(){
-        AccountMenu accountMenu = new AccountMenu(LEAD_SERVICE, CONTACT_SERVICE, ACCOUNT_SERVICE, OPPORTUNITY_SERVICE, SALES_REP_SERVICE);
-        AccountInfo accountInfo = accountMenu.requestAccountInfo();
-        return ACCOUNT_SERVICE.createAccount(accountInfo);
-    }
-
 
     public Account selectAccountForOpportunity(){
-        AccountMenu accountMenu = new AccountMenu(LEAD_SERVICE, CONTACT_SERVICE, ACCOUNT_SERVICE, OPPORTUNITY_SERVICE, SALES_REP_SERVICE);
+        AccountMenu accountMenu = new AccountMenu(CONTACT_SERVICE, ACCOUNT_SERVICE);
         displayCreateOrAssociateAccountMenu();
         String choice = INPUT.nextLine();
         while (true) {
             switch (choice) {
                 case "1": //Create account
-                   return createAccountByRequest();
+                   return accountMenu.createAccountByRequest();
                 case "2":  //Select account by id
                     if(ACCOUNT_SERVICE.isEmptyList()) {
                         System.err.println("Account list is empty.");
-                        return createAccountByRequest();
+                        return accountMenu.createAccountByRequest();
                     } else return accountMenu.requestAccountById();
                 default:
                     System.err.println("Please select a valid option");
             }
         }
     }
-
-
-
-    public ContactInfo getInfoLeadToConvert(Lead lead){
-        return new ContactInfo(
-                lead.getId(),
-                lead.getName(),
-                lead.getPhoneNumber(),
-                lead.getEmail(),
-                lead.getCompanyName(),
-                null);
-        }
-
 
     public static void displayOpportunityTypeMenu() {
         System.out.println("Choose product type:");

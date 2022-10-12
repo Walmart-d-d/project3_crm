@@ -1,15 +1,12 @@
 package com.ironhack.project_crm_2.classes.menus;
-
 import com.ironhack.project_crm_2.classes.Utils;
 import com.ironhack.project_crm_2.details.AccountInfo;
 import com.ironhack.project_crm_2.details.ContactInfo;
 import com.ironhack.project_crm_2.enums.IndustryOption;
 import com.ironhack.project_crm_2.models.Account;
 import com.ironhack.project_crm_2.models.Contact;
-import com.ironhack.project_crm_2.models.Opportunity;
 import com.ironhack.project_crm_2.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -17,20 +14,13 @@ import java.util.Scanner;
 public class AccountMenu {
 
     private final Scanner INPUT = new Scanner(System.in);
-    private final LeadService LEAD_SERVICE;
     private final ContactService CONTACT_SERVICE;
     private final AccountService ACCOUNT_SERVICE;
-    private final OpportunityService OPPORTUNITY_SERVICE;
-    private final SalesRepService SALES_REP_SERVICE;
 
     @Autowired
-    public AccountMenu(LeadService leadService, ContactService contactService, AccountService accountService,
-                    OpportunityService opportunityService, SalesRepService salesRepService) {
-        this.LEAD_SERVICE = leadService;
+    public AccountMenu(ContactService contactService, AccountService accountService) {
         this.CONTACT_SERVICE = contactService;
         this.ACCOUNT_SERVICE = accountService;
-        this.OPPORTUNITY_SERVICE = opportunityService;
-        this.SALES_REP_SERVICE = salesRepService;
     }
 
     private void displayAccountMenuOptions() {
@@ -107,7 +97,6 @@ public class AccountMenu {
         }
     }
 
-
     public AccountInfo requestAccountInfo() {
         System.out.println("CREATE NEW ACCOUNT");
         return new AccountInfo(
@@ -116,6 +105,10 @@ public class AccountMenu {
                 Utils.promptForString("City: "),
                 Utils.promptForString("Country: ")
         );
+    }
+    public Account createAccountByRequest(){
+        AccountInfo accountInfo = requestAccountInfo();
+        return ACCOUNT_SERVICE.createAccount(accountInfo);
     }
 
     public static void displayIndustryOptionMenu(){

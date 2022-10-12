@@ -34,7 +34,7 @@ public class ProjectCrm2Application implements CommandLineRunner {
 	}
 
 	@Override
-	public void run(String... args) throws Exception {
+	public void run(String... args) {
 
 		LeadService leadService = new LeadService(leadRepository);
 		ContactService contactService = new ContactService(contactRepository);

@@ -1,8 +1,6 @@
 package com.ironhack.project_crm_2.classes.menus;
-
 import com.ironhack.project_crm_2.classes.Utils;
 import com.ironhack.project_crm_2.details.LeadInfo;
-import com.ironhack.project_crm_2.details.SalesRepInfo;
 import com.ironhack.project_crm_2.models.Lead;
 import com.ironhack.project_crm_2.models.SalesRep;
 import com.ironhack.project_crm_2.services.*;
@@ -60,7 +58,7 @@ public class LeadMenu {
                 case "4": //Convert Lead into Opportunity
                     OpportunityMenu oppMenu = new OpportunityMenu(
                             LEAD_SERVICE, CONTACT_SERVICE, ACCOUNT_SERVICE,
-                            OPPORTUNITY_SERVICE, SALES_REP_SERVICE);
+                            OPPORTUNITY_SERVICE);
                     oppMenu.convertLeadIntoOpportunity();
                     break;
                 case "5":   // go back
@@ -70,7 +68,6 @@ public class LeadMenu {
             }
         }
     }
-
 
 
     public LeadInfo requestLeadInfo() {
