@@ -122,8 +122,13 @@ public class LeadMenu {
 
     public void showLeads() {
         List<Lead> allLeads = LEAD_SERVICE.getAll();
-        for (Lead lead : allLeads) {
-            System.out.println(lead.toString());
+        if (allLeads.size() == 0) {
+            System.out.println("Empty list");
+        } else {
+            for (Lead lead : allLeads) {
+                System.out.println(lead.toString());
+            }
         }
     }
+
 }

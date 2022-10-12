@@ -110,8 +110,6 @@ public class Account {
                 "Employee count: " + this.getEmployeeCount() +"\n"+
                 "City: " + this.getCity() + "\n"+
                 "Country: " + this.getCountry() + "\n" +
-                "Number of opportunities: " + this.getOpportunityList().size() + "\n"+
-                "Contacts: " + this.getContactList().size() + "\n"+
                 "==========================================";
     }
 }

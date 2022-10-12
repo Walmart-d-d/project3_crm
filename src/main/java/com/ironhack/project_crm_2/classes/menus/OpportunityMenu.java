@@ -37,6 +37,7 @@ public class OpportunityMenu {
         System.out.println("OPPORTUNITY MENU");
         System.out.println("1. Show opportunities");
         System.out.println("2. Change status of an opportunity");
+        System.out.println("3. Go back");
     }
 
 
@@ -163,19 +164,21 @@ public class OpportunityMenu {
         System.out.println("2. Associate to existent account");
     }
 
+
     public Account selectAccountForOpportunity(){
+        AccountMenu accountMenu = new AccountMenu(LEAD_SERVICE, CONTACT_SERVICE, ACCOUNT_SERVICE, OPPORTUNITY_SERVICE, SALES_REP_SERVICE);
         displayCreateOrAssociateAccountMenu();
         String choice = INPUT.nextLine();
         while (true) {
             switch (choice) {
                 case "1": //Create account
-                    AccountInfo accountInfo = requestAccountInfo();
+                    AccountInfo accountInfo = accountMenu.requestAccountInfo();
                     return ACCOUNT_SERVICE.createAccount(accountInfo);
                 case "2":  //Select account by id
                     if(ACCOUNT_SERVICE.isEmptyList()) {
                         System.err.println("Account list is empty.");
                         break;
-                    } else return ACCOUNT_SERVICE.requestAccountById();
+                    } else return accountMenu.requestAccountById();
                 default:
                     System.err.println("Please select a valid option");
             }
@@ -183,44 +186,6 @@ public class OpportunityMenu {
     }
 
 
-    public AccountInfo requestAccountInfo() {
-        return new AccountInfo(
-                requestIndustryOption(),
-                Utils.promptForInt("Number of employees: "),
-                Utils.promptForString("City: "),
-                Utils.promptForString("Country: ")
-        );
-    }
-
-    public static void displayIndustryOptionMenu(){
-        System.out.println("Choose the company's sector:");
-        System.out.println("1. Produce");
-        System.out.println("2. E-Commerce");
-        System.out.println("3. Manufacturing");
-        System.out.println("4. Medical");
-        System.out.println("5. Other");
-    }
-
-    public IndustryOption requestIndustryOption() {
-        displayIndustryOptionMenu();
-        while (true) {
-            String choice = INPUT.nextLine();
-            switch (choice) {
-                case "1":
-                    return IndustryOption.PRODUCE;
-                case "2":
-                    return IndustryOption.ECOMMERCE;
-                case "3":
-                    return IndustryOption.MANUFACTURING;
-                case "4":
-                    return IndustryOption.MEDICAL;
-                case "5":
-                    return IndustryOption.OTHER;
-                default:
-                    System.err.println("Please select a valid option");
-            }
-        }
-    }
 
     public ContactInfo getInfoLeadToConvert(Lead lead){
         return new ContactInfo(
@@ -231,6 +196,7 @@ public class OpportunityMenu {
                 lead.getCompanyName(),
                 null);
         }
+
 
     public static void displayOpportunityTypeMenu() {
         System.out.println("Choose product type:");

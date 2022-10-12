@@ -3,10 +3,12 @@ package com.ironhack.project_crm_2.services;
 import com.ironhack.project_crm_2.classes.Utils;
 import com.ironhack.project_crm_2.details.AccountInfo;
 import com.ironhack.project_crm_2.models.Account;
+import com.ironhack.project_crm_2.models.Opportunity;
 import com.ironhack.project_crm_2.respositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Optional;
 
 public class AccountService {
@@ -26,6 +28,10 @@ public class AccountService {
         ));
     }
 
+    public List<Account> getAll() {
+        return ACCOUNT_REPOSITORY.findAll();
+    }
+
 
     public Account getById(int id){
         Optional<Account> optionalAccount = ACCOUNT_REPOSITORY.findById(id);
@@ -38,17 +44,6 @@ public class AccountService {
 
     public boolean isEmptyList() {
         return ACCOUNT_REPOSITORY.findAll().size() == 0;
-    }
-
-    public Account requestAccountById(){
-        while (true){
-            int id = Utils.promptForInt("Enter account Id");
-            try {
-                return  getById(id);
-            } catch (IllegalArgumentException | InputMismatchException e) {
-                System.err.println(e.getMessage());
-            }
-        }
     }
 
 
