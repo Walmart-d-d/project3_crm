@@ -20,8 +20,9 @@ public class LeadService {
         this.leadRepository = leadRepository;
     }
 
-    public void add(LeadInfo leadinfo){
-        leadRepository.save(new Lead(leadinfo.name, leadinfo.phoneNumber, leadinfo.email, leadinfo.companyName));
+    public Lead add(LeadInfo leadinfo){
+        return leadRepository.save(new Lead(leadinfo.name, leadinfo.phoneNumber, leadinfo.email, leadinfo.companyName,
+                leadinfo.salesRep));
     }
 
     public List<Lead> getAll(){
@@ -37,37 +38,8 @@ public class LeadService {
         }
     }
 
-    public void showById() {
-        while (true) {
-            int id = Utils.promptForInt("Enter a valid lead ID: ");
-            try {
-                Lead searchedLead = getById(id);
-                System.out.println(searchedLead.toString());
-                break;
-            } catch (IllegalArgumentException | InputMismatchException e) {
-                System.err.println(e.getMessage());
-            }
-        }
-    }
-
-    public void showLeads() {
-        List<Lead> allLeads = getAll();
-        for (Lead lead : allLeads) {
-            System.out.println(lead.toString());
-        }
-    }
-
-    public Lead getLeadToConvert() {
-        while (true) {
-            try {
-                int id = Utils.promptForInt("Enter a valid lead ID: ");
-                Lead leadToConvert = getById(id);
-                System.out.println(leadToConvert.toString());
-                return leadToConvert;
-            } catch (IllegalArgumentException | InputMismatchException e) {
-                System.err.println(e.getMessage());
-            }
-        }
+    public boolean isEmptyList() {
+        return leadRepository.findAll().size() == 0;
     }
 
     public void delete(int id) {

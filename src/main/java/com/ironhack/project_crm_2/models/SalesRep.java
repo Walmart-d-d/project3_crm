@@ -18,11 +18,14 @@ private Set<Opportunity> oppSet;
     public SalesRep() {
     }
 
+    public SalesRep(String name) {
+        this.name = name;
+    }
+
     public SalesRep(String name, Set<Lead> leadSet, Set<Opportunity> oppSet) {
         setName(name);
-       setLeadSet(leadSet);
+        setLeadSet(leadSet);
         setOppSet(oppSet);
-
     }
 
     public Set<Opportunity> getOppSet() {

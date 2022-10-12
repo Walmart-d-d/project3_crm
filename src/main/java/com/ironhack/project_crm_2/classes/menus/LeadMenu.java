@@ -2,9 +2,14 @@ package com.ironhack.project_crm_2.classes.menus;
 
 import com.ironhack.project_crm_2.classes.Utils;
 import com.ironhack.project_crm_2.details.LeadInfo;
+import com.ironhack.project_crm_2.details.SalesRepInfo;
+import com.ironhack.project_crm_2.models.Lead;
+import com.ironhack.project_crm_2.models.SalesRep;
 import com.ironhack.project_crm_2.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 public class LeadMenu {
@@ -35,20 +40,21 @@ public class LeadMenu {
     }
 
     public void leadMenu() {
-        //displayLeadMenuOptions();
         while (true) {
             displayLeadMenuOptions();
             String choice = INPUT.nextLine();
             switch (choice) {
                 case "1": //Create lead
-                    LeadInfo lead = requestLeadInfo();
-                    LEAD_SERVICE.add(lead);
+                    LeadInfo leadInfo = requestLeadInfo();
+                    Lead newLead = LEAD_SERVICE.add(leadInfo);
+                    System.out.println("NEW LEAD CREATED:");
+                    System.out.println(newLead.toString());
                     break;
                 case "2": //Show all leads
-                    LEAD_SERVICE.showLeads();
+                    showLeads();
                     break;
                 case "3": //show lead by id
-                    LEAD_SERVICE.showById();
+                    showById();
                     break;
                 case "4": //Convert Lead into Opportunity
                     OpportunityMenu menu = new OpportunityMenu(
@@ -69,7 +75,52 @@ public class LeadMenu {
                 Utils.promptForString("Introduce name: "),
                 Utils.promptForPhoneNumber("Introduce telephone number: "),
                 Utils.promptForString("Introduce email address: "),
-                Utils.promptForString("Introduce the name of the company: ")
+                Utils.promptForString("Introduce the name of the company: "),
+                getSalesRep()
         );
+    }
+
+
+    public SalesRep getSalesRep() {
+        if (SALES_REP_SERVICE.isEmptyList()) {
+            System.err.println("Sales representative list is empty.");
+            return addNewSalesRep();
+        } else {
+            while(true) {
+                int salesRepId = Utils.promptForInt("Select sales representative by Id: ");
+                try {
+                    return SALES_REP_SERVICE.getById(salesRepId);
+                } catch (IllegalArgumentException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+        }
+    }
+
+    public SalesRep addNewSalesRep() {
+        System.out.println("ADD NEW SALES REPRESENTATIVE");
+        SalesRepInfo salesRepInfo = new SalesRepInfo(Utils.promptForString("Enter name: "));
+        return SALES_REP_SERVICE.add(salesRepInfo);
+    }
+
+
+    public void showById() {
+        while (true) {
+            int id = Utils.promptForInt("Enter a valid lead ID: ");
+            try {
+                Lead searchedLead = LEAD_SERVICE.getById(id);
+                System.out.println(searchedLead.toString());
+                break;
+            } catch (IllegalArgumentException | InputMismatchException e) {
+                System.err.println(e.getMessage());
+            }
+        }
+    }
+
+    public void showLeads() {
+        List<Lead> allLeads = LEAD_SERVICE.getAll();
+        for (Lead lead : allLeads) {
+            System.out.println(lead.toString());
+        }
     }
 }
