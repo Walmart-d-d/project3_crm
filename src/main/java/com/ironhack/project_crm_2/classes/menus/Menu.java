@@ -1,7 +1,5 @@
 package com.ironhack.project_crm_2.classes.menus;
-import com.ironhack.project_crm_2.services.AccountService;
-import com.ironhack.project_crm_2.services.ContactService;
-import com.ironhack.project_crm_2.services.LeadService;
+import com.ironhack.project_crm_2.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Scanner;
@@ -12,12 +10,17 @@ public class Menu {
     private final LeadService LEAD_SERVICE;
     private final ContactService CONTACT_SERVICE;
     private final AccountService ACCOUNT_SERVICE;
+    private final OpportunityService OPPORTUNITY_SERVICE;
+    private final SalesRepService SALES_REP_SERVICE;
 
     @Autowired
-    public Menu(LeadService leadService, ContactService contactService, AccountService accountService) {
+    public Menu(LeadService leadService, ContactService contactService,
+                AccountService accountService,  OpportunityService opportunityService, SalesRepService salesRepService) {
         this.LEAD_SERVICE = leadService;
         this.CONTACT_SERVICE = contactService;
         this.ACCOUNT_SERVICE = accountService;
+        this.OPPORTUNITY_SERVICE = opportunityService;
+        this.SALES_REP_SERVICE = salesRepService;
     }
 
 
@@ -29,14 +32,14 @@ public class Menu {
     }
 
     public void mainMenu() {
-        mainMenuOptions();
         while (true) {
+            mainMenuOptions();
             String choice = INPUT.nextLine();
             switch (choice) {
                 case "1":   // Display lead menu
-                    LeadMenu menu = new LeadMenu(LEAD_SERVICE, CONTACT_SERVICE, ACCOUNT_SERVICE);
+                    LeadMenu menu = new LeadMenu(LEAD_SERVICE, CONTACT_SERVICE, ACCOUNT_SERVICE, OPPORTUNITY_SERVICE, SALES_REP_SERVICE);
                     menu.leadMenu();
-                    return;
+                    break;
                 case "2":   // Display opportunities menu
                     return;
                 case "3":   // Display accounts menu
@@ -44,8 +47,10 @@ public class Menu {
                     return;
                 case "4":   // Exit
                     return;
+                default:
+                    System.err.println("Please select a valid option");;
             }
-            System.err.println("Please select a valid option");;
+
         }
     }
 

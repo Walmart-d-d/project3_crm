@@ -7,6 +7,8 @@ import com.ironhack.project_crm_2.respositories.OpportunityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
 public class OpportunityService {
 
@@ -17,7 +19,8 @@ public class OpportunityService {
         this.oppRepository = oppRepository;
     }
 
-    Opportunity createOpportunity(OpportunityInfo opportunityInfo){
+    @Transactional
+    public Opportunity createOpportunity(OpportunityInfo opportunityInfo){
         return oppRepository.save(new Opportunity(
                 opportunityInfo.productType,
                 opportunityInfo.decisionMaker,

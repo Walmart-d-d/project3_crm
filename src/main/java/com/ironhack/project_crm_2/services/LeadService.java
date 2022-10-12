@@ -70,6 +70,10 @@ public class LeadService {
         }
     }
 
+    public void delete(int id) {
+        leadRepository.deleteById(id);
+    }
+
 
 
 
