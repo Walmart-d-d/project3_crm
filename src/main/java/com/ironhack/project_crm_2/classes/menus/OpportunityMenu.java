@@ -11,6 +11,7 @@ import com.ironhack.project_crm_2.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 public class OpportunityMenu {
@@ -30,6 +31,87 @@ public class OpportunityMenu {
         this.ACCOUNT_SERVICE = accountService;
         this.OPPORTUNITY_SERVICE = opportunityService;
         this.SALES_REP_SERVICE = salesRepService;
+    }
+
+    public void displayOpportunityMenu(){
+        System.out.println("OPPORTUNITY MENU");
+        System.out.println("1. Show opportunities");
+        System.out.println("2. Change status of an opportunity");
+    }
+
+
+    public void oppMenu() {
+        while (true) {
+            displayOpportunityMenu();
+            String choice = INPUT.nextLine();
+            switch (choice) {
+                case "1": //Show all opportunities
+                    showOpportunities();
+                    break ;
+                case "2":  //Change status of an opportunity
+                    Opportunity opportunity = getOpportunityToUpdate();
+                    updateOpportunityStatus(opportunity.getId());
+                    return;
+                case "3": // Go back
+                    return;
+                default:
+                    System.err.println("Please select a valid option");
+            }
+        }
+    }
+
+    public void displayOppStatus() {
+        System.out.println("1. Open");
+        System.out.println("2. Closed Won");
+        System.out.println("3. Closed Lost");
+    }
+
+
+    public void updateOpportunityStatus(int opportunityId){
+        displayOppStatus();
+        String choice = INPUT.nextLine();
+        while(true) {
+            switch (choice) {
+                case "1":
+                   OPPORTUNITY_SERVICE.changeStatus(opportunityId, OppStatus.OPEN);
+                   System.out.println("Opportunity updated");
+                   return;
+                case "2":
+                    OPPORTUNITY_SERVICE.changeStatus(opportunityId, OppStatus.CLOSED_WON);
+                    System.out.println("Opportunity updated");
+                    return;
+                case "3":
+                    OPPORTUNITY_SERVICE.changeStatus(opportunityId, OppStatus.CLOSED_LOST);
+                    System.out.println("Opportunity updated");
+                    return;
+                default:
+                    System.err.println("Please select a valid option");
+            }
+        }
+    }
+
+    public Opportunity getOpportunityToUpdate(){
+        while(true){
+            try{
+                int id = Utils.promptForInt("Enter a valid opportunity ID: ");
+                Opportunity opportunityToUpdate = OPPORTUNITY_SERVICE.getById(id);
+                System.out.println(opportunityToUpdate.toString());
+                return opportunityToUpdate;
+            } catch (IllegalArgumentException e) {
+                System.err.println(e.getMessage());
+            }
+        }
+    }
+
+    public void showOpportunities(){
+        List<Opportunity> list = OPPORTUNITY_SERVICE.getAll();
+        if (list.size() == 0) {
+            System.out.println("Empty list");
+        } else {
+            for (Opportunity opportunity : list) {
+                System.out.println(list.toString());
+            }
+        }
     }
 
     public void convertLeadIntoOpportunity() {
@@ -174,6 +256,4 @@ public class OpportunityMenu {
             }
         }
     }
-
-
 }

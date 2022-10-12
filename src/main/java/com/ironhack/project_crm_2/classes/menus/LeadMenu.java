@@ -32,6 +32,7 @@ public class LeadMenu {
     }
 
     private void displayLeadMenuOptions() {
+        System.out.println("LEAD MENU");
         System.out.println("1. Create Lead");
         System.out.println("2. Show all Leads");
         System.out.println("3. Show Lead by Identification Number");
@@ -57,10 +58,10 @@ public class LeadMenu {
                     showById();
                     break;
                 case "4": //Convert Lead into Opportunity
-                    OpportunityMenu menu = new OpportunityMenu(
+                    OpportunityMenu oppMenu = new OpportunityMenu(
                             LEAD_SERVICE, CONTACT_SERVICE, ACCOUNT_SERVICE,
                             OPPORTUNITY_SERVICE, SALES_REP_SERVICE);
-                    menu.convertLeadIntoOpportunity();
+                    oppMenu.convertLeadIntoOpportunity();
                     break;
                 case "5":   // go back
                     return;
@@ -70,7 +71,9 @@ public class LeadMenu {
         }
     }
 
-    private LeadInfo requestLeadInfo() {
+
+
+    public LeadInfo requestLeadInfo() {
         return new LeadInfo(
                 Utils.promptForString("Introduce name: "),
                 Utils.promptForPhoneNumber("Introduce telephone number: "),

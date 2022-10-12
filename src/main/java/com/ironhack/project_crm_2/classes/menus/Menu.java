@@ -41,12 +41,14 @@ public class Menu {
                     menu.leadMenu();
                     break;
                 case "2":   // Display opportunities menu
-                    return;
+                    OpportunityMenu oppMenu = new OpportunityMenu(LEAD_SERVICE, CONTACT_SERVICE, ACCOUNT_SERVICE, OPPORTUNITY_SERVICE, SALES_REP_SERVICE);
+                    oppMenu.oppMenu();
+                    break;
                 case "3":   // Display accounts menu
                     //accounts
                     return;
                 case "4":   // Exit
-                    return;
+                    System.exit(0);
                 default:
                     System.err.println("Please select a valid option");;
             }
