@@ -30,7 +30,8 @@ public class MainMenu {
         System.out.println("2. Opportunities");
         System.out.println("3. Accounts");
         System.out.println("4. Sales representatives");
-        System.out.println("5. Exit");
+        System.out.println("5. Reports");
+        System.out.println("6. Exit");
     }
 
     public void mainMenu() {
@@ -54,7 +55,10 @@ public class MainMenu {
                     SalesRepMenu salesRepMenu = new SalesRepMenu(SALES_REP_SERVICE);
                     salesRepMenu.salesRepMenu();
                     break;
-                case "5":   // Exit
+                case "5": //queries
+                    QueryMenu queryMenu = new QueryMenu(ACCOUNT_SERVICE, OPPORTUNITY_SERVICE);
+                    queryMenu.queryMenu();
+                case "6":   // Exit
                     System.exit(0);
                 default:
                     System.err.println("Please select a valid option");;
