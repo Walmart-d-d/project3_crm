@@ -1,6 +1,8 @@
 package com.ironhack.project_crm_2.details;
 
+import com.ironhack.project_crm_2.classes.Utils;
 import com.ironhack.project_crm_2.enums.IndustryOption;
+
 
 public class AccountInfo {
 
@@ -15,4 +17,6 @@ public class AccountInfo {
         this.city = city;
         this.country = country;
     }
+
+
 }

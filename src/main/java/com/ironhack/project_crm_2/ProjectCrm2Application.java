@@ -1,6 +1,6 @@
 package com.ironhack.project_crm_2;
 
-import com.ironhack.project_crm_2.classes.menus.Menu;
+import com.ironhack.project_crm_2.classes.menus.MainMenu;
 import com.ironhack.project_crm_2.respositories.*;
 import com.ironhack.project_crm_2.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +42,7 @@ public class ProjectCrm2Application implements CommandLineRunner {
 		OpportunityService opportunityService = new OpportunityService(opportunityRepository);
 		SalesRepService salesRepService = new SalesRepService(salesRepRepository);
 
-		Menu menu = new Menu(leadService, contactService, accountService, opportunityService,  salesRepService);
+		MainMenu menu = new MainMenu(leadService, contactService, accountService, opportunityService,  salesRepService);
 
 		menu.mainMenu();
 
