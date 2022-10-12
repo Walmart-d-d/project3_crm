@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface SalesRepRepository extends JpaRepository<SalesRep, Integer> {
 
 
-    @Query("SELECT name, COUNT(Lead) FROM SalesRep GROUP BY name;")
+ /*   @Query("SELECT name, COUNT(Lead) FROM SalesRep GROUP BY name;")
     List<Object[]> reportLeadBySalesRep();
 
     @Query("SELECT name, COUNT(Opportunity) FROM SalesRep GROUP BY name;")
@@ -25,6 +25,6 @@ public interface SalesRepRepository extends JpaRepository<SalesRep, Integer> {
     List<Object[]> reportClosedLOSTBySalesRep();
 
     @Query("SELECT name, COUNT(status) FROM SalesRep JOIN Opportunity ON SalesRep.id = Opportunity.salesRep WHERE Opportunity.status='OPEN' GROUP BY SalesRep.name;")
-    List<Object[]> reportOpenBySalesRep();
+    List<Object[]> reportOpenBySalesRep();*/
 
 }

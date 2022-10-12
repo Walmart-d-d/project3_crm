@@ -57,4 +57,50 @@ public class OpportunityService {
             throw new IllegalArgumentException("Opportunity not found");
         }
     }
+
+    public List<Object[]> reportOppByProduct(){
+        return OPPORTUNITY_REPOSITORY.reportOppByProduct();
+    }
+    public  List<Object[]> reportOppClosedWonByProduct(){
+        return OPPORTUNITY_REPOSITORY.reportOppClosedWonByProduct();
+    }
+    public List<Object[]> reportOppClosedLostByProduct(){
+        return OPPORTUNITY_REPOSITORY.reportOppClosedLostByProduct();
+    }
+    public List<Object[]> reportOppOpenByProduct(){
+        return OPPORTUNITY_REPOSITORY.reportOppOpenByProduct();
+    }
+    public List<Object[]> reportOppByCountry(){
+        return OPPORTUNITY_REPOSITORY.reportOppByCountry();
+    }
+    public List<Object[]> reportOppClosedWonByCountry(){
+        return OPPORTUNITY_REPOSITORY.reportOppClosedWonByCountry();
+    }
+    public List<Object[]> reportOppClosedLostByCountry(){
+        return OPPORTUNITY_REPOSITORY.reportOppClosedLostByCountry();
+    }
+    public List<Object[]> reportOppOpenByCountry(){
+        return OPPORTUNITY_REPOSITORY.reportOppOpenByCountry();
+    }
+    public List<Object[]> reportOppByCity(){
+        return OPPORTUNITY_REPOSITORY.reportOppByCity();
+    }
+    public List<Object[]> reportOppClosedWonByCity(){
+        return OPPORTUNITY_REPOSITORY.reportOppClosedWonByCity();
+    }
+    public List<Object[]> reportOppClosedLostByCity(){
+        return OPPORTUNITY_REPOSITORY.reportOppClosedLostByCity();
+    }
+    public List<Object[]> reportOppOpenByCity(){
+        return OPPORTUNITY_REPOSITORY.reportOppOpenByCity();
+    }
+    public List<Object[]> averageOppByAccount(){
+        return OPPORTUNITY_REPOSITORY.averageOppByAccount();
+    }
+    public List<Object[]> maxOppByAccount(){
+        return OPPORTUNITY_REPOSITORY.maxOppByAccount();
+    }
+    public List<Object[]> minOppByAccount(){
+        return OPPORTUNITY_REPOSITORY.minOppByAccount();
+    }
 }
