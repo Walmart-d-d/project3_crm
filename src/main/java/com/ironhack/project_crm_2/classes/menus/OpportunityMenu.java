@@ -144,7 +144,7 @@ public class OpportunityMenu {
         }
     }
 
-    public static void displayIndustryOptionMenu(){
+    public void displayIndustryOptionMenu(){
         System.out.println("Choose the company's sector:");
         System.out.println("1. Produce");
         System.out.println("2. E-Commerce");
@@ -153,14 +153,14 @@ public class OpportunityMenu {
         System.out.println("5. Other");
     }
 
-    public static void displayOpportunityTypeMenu() {
+    public void displayOpportunityTypeMenu() {
         System.out.println("Choose product type:");
         System.out.println("1. Hybrid");
         System.out.println("2. Flatbed");
         System.out.println("3. Box");
     }
 
-    public static void displayCreateOrAssociateAccountMenu() {
+    public void displayCreateOrAssociateAccountMenu() {
         System.out.println("1. Create account");
         System.out.println("2. Associate to existent account");
     }

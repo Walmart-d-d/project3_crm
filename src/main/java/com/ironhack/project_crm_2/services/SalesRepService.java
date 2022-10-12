@@ -1,10 +1,13 @@
 package com.ironhack.project_crm_2.services;
 
+import com.ironhack.project_crm_2.models.Lead;
 import com.ironhack.project_crm_2.models.SalesRep;
 import com.ironhack.project_crm_2.respositories.SalesRepRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -25,5 +28,8 @@ public class SalesRepService {
             throw new IllegalArgumentException("Sales representative not found");
         }
     }
+
+
+
 
 }

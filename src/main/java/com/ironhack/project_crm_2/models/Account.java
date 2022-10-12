@@ -27,10 +27,10 @@ public class Account {
     }
 
     public Account(IndustryOption industryOption, int employeeCount, String city, String country) {
-        this.industryOption = industryOption;
-        this.employeeCount = employeeCount;
-        this.city = city;
-        this.country = country;
+        setIndustryOption(industryOption);
+        setEmployeeCount(employeeCount);
+        setCity(city);
+        setCountry(country);
     }
 
     public Account(IndustryOption industryOption, int employeeCount, String city, String country, List<Opportunity> opportunityList, List<Contact> contactList) {

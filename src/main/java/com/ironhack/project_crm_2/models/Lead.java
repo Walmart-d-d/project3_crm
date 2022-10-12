@@ -49,18 +49,16 @@ public class Lead{
         this.name = name;
     }
 
+    public int getLeadId() {
+        return leadId;
+    }
+
     public int getPhoneNumber() {
         return phoneNumber;
     }
 
     public void setPhoneNumber(int phoneNumber) {
         this.phoneNumber = phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        if (!NumberUtils.isParsable(phoneNumber)) {
-            throw new IllegalArgumentException("Must be a phone number");
-        } else this.phoneNumber = Integer.parseInt(phoneNumber);
     }
 
     public String getEmail() {

@@ -24,7 +24,7 @@ public class Menu {
     }
 
 
-    private static void mainMenuOptions() {
+    private void mainMenuOptions() {
         System.out.println("1. Leads");
         System.out.println("2. Opportunities");
         System.out.println("3. Accounts");

@@ -2,12 +2,12 @@ package com.ironhack.project_crm_2.services;
 
 import com.ironhack.project_crm_2.details.OpportunityInfo;
 import com.ironhack.project_crm_2.models.Opportunity;
-import com.ironhack.project_crm_2.respositories.LeadRepository;
 import com.ironhack.project_crm_2.respositories.OpportunityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 public class OpportunityService {
@@ -29,7 +29,9 @@ public class OpportunityService {
                 opportunityInfo.account,
                 opportunityInfo.salesRep));
             }
-
+public List<Object[]> reportOppByProduct(){
+        return OpportunityRepository.reportOppByProduct();
+}
 
 
 }
