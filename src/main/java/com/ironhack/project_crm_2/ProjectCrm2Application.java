@@ -36,7 +36,7 @@ public class ProjectCrm2Application implements CommandLineRunner {
 	@Override
 	public void run(String... args) {
 
-		LeadService leadService = new LeadService(leadRepository);
+	/*	LeadService leadService = new LeadService(leadRepository);
 		ContactService contactService = new ContactService(contactRepository);
 		AccountService accountService = new AccountService(accountRepository);
 		OpportunityService opportunityService = new OpportunityService(opportunityRepository);
@@ -44,7 +44,7 @@ public class ProjectCrm2Application implements CommandLineRunner {
 
 		MainMenu menu = new MainMenu(leadService, contactService, accountService, opportunityService,  salesRepService);
 
-		menu.mainMenu();
+		menu.mainMenu();*/
 
 	}
 }

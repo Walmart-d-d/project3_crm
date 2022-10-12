@@ -3,6 +3,11 @@ import com.ironhack.project_crm_2.details.AccountInfo;
 import com.ironhack.project_crm_2.models.Account;
 import com.ironhack.project_crm_2.respositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.InputMismatchException;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -41,5 +46,28 @@ public class AccountService {
         return ACCOUNT_REPOSITORY.findAll().size() == 0;
     }
 
+
+   public  List<Object[]> averageEmployeeCountByAccount(){
+        return ACCOUNT_REPOSITORY.averageEmployeeCountByAccount();
+   }
+
+   public List<Object[]> maxEmployeeCountByAccount(){
+        return ACCOUNT_REPOSITORY.maxEmployeeCountByAccount();
+   }
+
+   public List<Object[]> minEmployeeCountByAccount(){
+        return ACCOUNT_REPOSITORY.minEmployeeCountByAccount();
+   }
+
+
+    public List<Object[]> averageQuantityByAccount(){
+        return ACCOUNT_REPOSITORY.averageQuantityByAccount();
+    }
+    public List<Object[]> maxQuantityByAccount(){
+        return ACCOUNT_REPOSITORY.maxQuantityByAccount();
+    }
+    public List<Object[]> minQuantityByAccount(){
+        return ACCOUNT_REPOSITORY.minQuantityByAccount();
+    }
 
 }

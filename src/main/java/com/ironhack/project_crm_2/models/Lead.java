@@ -49,6 +49,10 @@ public class Lead{
         this.name = name;
     }
 
+    public int getLeadId() {
+        return leadId;
+    }
+
     public int getPhoneNumber() {
         return phoneNumber;
     }
