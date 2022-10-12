@@ -12,6 +12,7 @@ public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Enumerated(EnumType.STRING)
     private IndustryOption industryOption;
     private int employeeCount;
     private String city;
@@ -109,8 +110,6 @@ public class Account {
                 "Employee count: " + this.getEmployeeCount() +"\n"+
                 "City: " + this.getCity() + "\n"+
                 "Country: " + this.getCountry() + "\n" +
-                "Number of opportunities: " + this.getOpportunityList().size() + "\n"+
-                "Contacts: " + this.getContactList().size() + "\n"+
                 "==========================================";
     }
 }

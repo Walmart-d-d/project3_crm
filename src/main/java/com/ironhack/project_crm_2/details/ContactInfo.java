@@ -18,4 +18,12 @@ public class ContactInfo {
         this.companyName = companyName;
         this.account = account;
     }
+
+    public ContactInfo(String name, int phoneNumber, String email, String companyName, Account account) {
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.companyName = companyName;
+        this.account = account;
+    }
 }

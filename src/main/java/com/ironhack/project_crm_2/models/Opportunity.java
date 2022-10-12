@@ -104,7 +104,7 @@ public class Opportunity {
     public String toString() {
         return "Opportunity " + this.getId() + ":\n"+
                 "Product: " + this.getProduct() + "\n"+
-                "Decision maker: " + this.getDecisionMaker() + "\n"+
+                "Decision maker: " + this.getDecisionMaker().getName() + "\n"+
                 "Quantity: " + this.getQuantity() + "\n"+
                 "Status: " + this.getStatus() + "\n" +
                 "==========================================";

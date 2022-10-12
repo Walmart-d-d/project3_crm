@@ -19,14 +19,13 @@ private Set<Opportunity> oppSet;
     }
 
     public SalesRep(String name) {
-        setName(name);
+        this.name = name;
     }
 
     public SalesRep(String name, Set<Lead> leadSet, Set<Opportunity> oppSet) {
         setName(name);
-       setLeadSet(leadSet);
+        setLeadSet(leadSet);
         setOppSet(oppSet);
-
     }
 
     public Set<Opportunity> getOppSet() {
@@ -55,11 +54,5 @@ private Set<Opportunity> oppSet;
 
     public void setLeadSet(Set<Lead> leadSet) {
         this.leadSet = leadSet;
-    }
-
-    @Override
-    public String toString() {
-        return "Sales Representative " + id +":\n"+
-                "Name: " + name + "\n";
     }
 }

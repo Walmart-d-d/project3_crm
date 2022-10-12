@@ -93,6 +93,7 @@ public class Lead{
                 "Telephone number: " + this.getPhoneNumber() + '\n'+
                 "E-mail address: " + this.getEmail() + '\n' +
                 "Company: " + this.getCompanyName() + '\n' +
+                "Sales representative: " + this.getSalesRep().getName() + '\n' +
                 "==========================================";
     }
 }

@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Scanner;
 
-public class Menu {
+public class MainMenu {
 
     private final Scanner INPUT = new Scanner(System.in);
     private final LeadService LEAD_SERVICE;
@@ -14,8 +14,8 @@ public class Menu {
     private final SalesRepService SALES_REP_SERVICE;
 
     @Autowired
-    public Menu(LeadService leadService, ContactService contactService,
-                AccountService accountService,  OpportunityService opportunityService, SalesRepService salesRepService) {
+    public MainMenu(LeadService leadService, ContactService contactService,
+                    AccountService accountService, OpportunityService opportunityService, SalesRepService salesRepService) {
         this.LEAD_SERVICE = leadService;
         this.CONTACT_SERVICE = contactService;
         this.ACCOUNT_SERVICE = accountService;
@@ -41,12 +41,15 @@ public class Menu {
                     menu.leadMenu();
                     break;
                 case "2":   // Display opportunities menu
-                    return;
+                    OpportunityMenu oppMenu = new OpportunityMenu(LEAD_SERVICE, CONTACT_SERVICE, ACCOUNT_SERVICE, OPPORTUNITY_SERVICE, SALES_REP_SERVICE);
+                    oppMenu.oppMenu();
+                    break;
                 case "3":   // Display accounts menu
-                    //accounts
-                    return;
+                    AccountMenu accountMenu = new AccountMenu(LEAD_SERVICE, CONTACT_SERVICE, ACCOUNT_SERVICE, OPPORTUNITY_SERVICE, SALES_REP_SERVICE);
+                    accountMenu.accountMenu();
+                    break;
                 case "4":   // Exit
-                    return;
+                    System.exit(0);
                 default:
                     System.err.println("Please select a valid option");;
             }
