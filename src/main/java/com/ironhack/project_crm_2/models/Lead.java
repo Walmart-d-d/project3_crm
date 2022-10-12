@@ -57,12 +57,6 @@ public class Lead{
         this.phoneNumber = phoneNumber;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        if (!NumberUtils.isParsable(phoneNumber)) {
-            throw new IllegalArgumentException("Must be a phone number");
-        } else this.phoneNumber = Integer.parseInt(phoneNumber);
-    }
-
     public String getEmail() {
         return email;
     }
@@ -95,6 +89,7 @@ public class Lead{
                 "Telephone number: " + this.getPhoneNumber() + '\n'+
                 "E-mail address: " + this.getEmail() + '\n' +
                 "Company: " + this.getCompanyName() + '\n' +
+                "Sales representative: " + this.getSalesRep().getName() + '\n' +
                 "==========================================";
     }
 }

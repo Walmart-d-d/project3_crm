@@ -7,12 +7,12 @@ import com.ironhack.project_crm_2.models.Contact;
 import com.ironhack.project_crm_2.models.SalesRep;
 
 public class OpportunityInfo {
-    public final ProductType productType;
-    public final Contact decisionMaker;
-    public final int quantity;
-    public final OppStatus status;
-    public final Account account;
-    public final SalesRep salesRep;
+    public ProductType productType;
+    public Contact decisionMaker;
+    public int quantity;
+    public OppStatus status;
+    public Account account;
+    public SalesRep salesRep;
 
     public OpportunityInfo(ProductType productType, Contact decisionMaker, int quantity, OppStatus status, Account account, SalesRep salesRep) {
         this.productType = productType;

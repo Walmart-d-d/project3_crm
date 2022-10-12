@@ -11,6 +11,7 @@ import com.ironhack.project_crm_2.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 public class OpportunityMenu {
@@ -32,23 +33,119 @@ public class OpportunityMenu {
         this.SALES_REP_SERVICE = salesRepService;
     }
 
-    public void convertLeadIntoOpportunity(){
-        Lead leadToConvert = LEAD_SERVICE.getLeadToConvert();
-        ContactInfo contactInfo = getInfoLeadToConvert(leadToConvert);
-        Account account = selectAccountForOpportunity();
-        contactInfo.account = account;
-        Contact decisionMaker = CONTACT_SERVICE.createContact(contactInfo);
-        OpportunityInfo opportunityInfo = getOpportunityInfo(decisionMaker, account);
-        Opportunity newOpportunity = OPPORTUNITY_SERVICE.createOpportunity(opportunityInfo);
-        LEAD_SERVICE.delete(leadToConvert.getId());
+    public void displayOpportunityMenu(){
+        System.out.println("OPPORTUNITY MENU");
+        System.out.println("1. Show opportunities");
+        System.out.println("2. Change status of an opportunity");
     }
 
-    public OpportunityInfo getOpportunityInfo(Contact decisionMaker, Account account) {
-        ProductType productType = chooseProductType();
-        int numProducts = Utils.promptForInt("Number of products:");
 
-        //Pending manage error if sales rep not found
-        SalesRep salesRep = SALES_REP_SERVICE.getById(Utils.promptForInt("Select sales repr by Id"));
+    public void oppMenu() {
+        while (true) {
+            displayOpportunityMenu();
+            String choice = INPUT.nextLine();
+            switch (choice) {
+                case "1": //Show all opportunities
+                    showOpportunities();
+                    break ;
+                case "2":  //Change status of an opportunity
+                    Opportunity opportunity = getOpportunityToUpdate();
+                    updateOpportunityStatus(opportunity.getId());
+                    return;
+                case "3": // Go back
+                    return;
+                default:
+                    System.err.println("Please select a valid option");
+            }
+        }
+    }
+
+    public void displayOppStatus() {
+        System.out.println("1. Open");
+        System.out.println("2. Closed Won");
+        System.out.println("3. Closed Lost");
+    }
+
+
+    public void updateOpportunityStatus(int opportunityId){
+        displayOppStatus();
+        String choice = INPUT.nextLine();
+        while(true) {
+            switch (choice) {
+                case "1":
+                   OPPORTUNITY_SERVICE.changeStatus(opportunityId, OppStatus.OPEN);
+                   System.out.println("Opportunity updated");
+                   return;
+                case "2":
+                    OPPORTUNITY_SERVICE.changeStatus(opportunityId, OppStatus.CLOSED_WON);
+                    System.out.println("Opportunity updated");
+                    return;
+                case "3":
+                    OPPORTUNITY_SERVICE.changeStatus(opportunityId, OppStatus.CLOSED_LOST);
+                    System.out.println("Opportunity updated");
+                    return;
+                default:
+                    System.err.println("Please select a valid option");
+            }
+        }
+    }
+
+    public Opportunity getOpportunityToUpdate(){
+        while(true){
+            try{
+                int id = Utils.promptForInt("Enter a valid opportunity ID: ");
+                Opportunity opportunityToUpdate = OPPORTUNITY_SERVICE.getById(id);
+                System.out.println(opportunityToUpdate.toString());
+                return opportunityToUpdate;
+            } catch (IllegalArgumentException e) {
+                System.err.println(e.getMessage());
+            }
+        }
+    }
+
+    public void showOpportunities(){
+        List<Opportunity> list = OPPORTUNITY_SERVICE.getAll();
+        if (list.size() == 0) {
+            System.out.println("Empty list");
+        } else {
+            for (Opportunity opportunity : list) {
+                System.out.println(list.toString());
+            }
+        }
+    }
+
+    public void convertLeadIntoOpportunity() {
+        if (LEAD_SERVICE.isEmptyList()) {
+            System.err.println("Lead list is empty.");
+        } else {
+            Lead leadToConvert = getLeadToConvert();
+            SalesRep salesRep = leadToConvert.getSalesRep();
+            ContactInfo contactInfo = getInfoLeadToConvert(leadToConvert);
+            Account account = selectAccountForOpportunity();
+            contactInfo.account = account;
+            Contact decisionMaker = CONTACT_SERVICE.createContact(contactInfo);
+            OpportunityInfo opportunityInfo = getOpportunityInfo(decisionMaker, account, salesRep);
+            Opportunity newOpportunity = OPPORTUNITY_SERVICE.createOpportunity(opportunityInfo);
+            LEAD_SERVICE.delete(leadToConvert.getId());
+        }
+    }
+
+    public Lead getLeadToConvert() {
+            while (true) {
+                try {
+                    int id = Utils.promptForInt("Enter a valid lead ID: ");
+                    Lead leadToConvert = LEAD_SERVICE.getById(id);
+                    System.out.println(leadToConvert.toString());
+                    return leadToConvert;
+                } catch (IllegalArgumentException | InputMismatchException e) {
+                    System.err.println(e.getMessage());
+                }
+            }
+    }
+
+    public OpportunityInfo getOpportunityInfo(Contact decisionMaker, Account account, SalesRep salesRep) {
+        ProductType productType = chooseProductType();
+        int numProducts = Utils.promptForInt("Number of products: ");
 
         return new OpportunityInfo(
                 productType,
@@ -60,6 +157,12 @@ public class OpportunityMenu {
             );
         }
 
+
+    public static void displayCreateOrAssociateAccountMenu() {
+        System.out.println("1. Create account");
+        System.out.println("2. Associate to existent account");
+    }
+
     public Account selectAccountForOpportunity(){
         displayCreateOrAssociateAccountMenu();
         String choice = INPUT.nextLine();
@@ -69,32 +172,33 @@ public class OpportunityMenu {
                     AccountInfo accountInfo = requestAccountInfo();
                     return ACCOUNT_SERVICE.createAccount(accountInfo);
                 case "2":  //Select account by id
-                    return requestAccountById();
+                    if(ACCOUNT_SERVICE.isEmptyList()) {
+                        System.err.println("Account list is empty.");
+                        break;
+                    } else return ACCOUNT_SERVICE.requestAccountById();
                 default:
                     System.err.println("Please select a valid option");
             }
         }
     }
 
-    public Account requestAccountById(){
-        while (true){
-            int id = Utils.promptForInt("Enter account Id");
-            try {
-                Account selectedAccount = ACCOUNT_SERVICE.getById(id);
-                return selectedAccount;
-            } catch (IllegalArgumentException | InputMismatchException e) {
-                System.err.println(e.getMessage());
-            }
-        }
-    }
 
     public AccountInfo requestAccountInfo() {
         return new AccountInfo(
                 requestIndustryOption(),
                 Utils.promptForInt("Number of employees: "),
                 Utils.promptForString("City: "),
-                Utils.promptForString("Number: ")
+                Utils.promptForString("Country: ")
         );
+    }
+
+    public static void displayIndustryOptionMenu(){
+        System.out.println("Choose the company's sector:");
+        System.out.println("1. Produce");
+        System.out.println("2. E-Commerce");
+        System.out.println("3. Manufacturing");
+        System.out.println("4. Medical");
+        System.out.println("5. Other");
     }
 
     public IndustryOption requestIndustryOption() {
@@ -112,8 +216,9 @@ public class OpportunityMenu {
                     return IndustryOption.MEDICAL;
                 case "5":
                     return IndustryOption.OTHER;
+                default:
+                    System.err.println("Please select a valid option");
             }
-            System.err.println("Please select a valid option");
         }
     }
 
@@ -127,6 +232,13 @@ public class OpportunityMenu {
                 null);
         }
 
+    public static void displayOpportunityTypeMenu() {
+        System.out.println("Choose product type:");
+        System.out.println("1. Hybrid");
+        System.out.println("2. Flatbed");
+        System.out.println("3. Box");
+    }
+
 
     public ProductType chooseProductType() {
         displayOpportunityTypeMenu();
@@ -139,29 +251,9 @@ public class OpportunityMenu {
                     return ProductType.FLATBED;
                 case "3":
                     return ProductType.BOX;
+                default:
+                    System.err.println("Please select a valid option");
             }
-            System.err.println("Please select a valid option");
         }
-    }
-
-    public static void displayIndustryOptionMenu(){
-        System.out.println("Choose the company's sector:");
-        System.out.println("1. Produce");
-        System.out.println("2. E-Commerce");
-        System.out.println("3. Manufacturing");
-        System.out.println("4. Medical");
-        System.out.println("5. Other");
-    }
-
-    public static void displayOpportunityTypeMenu() {
-        System.out.println("Choose product type:");
-        System.out.println("1. Hybrid");
-        System.out.println("2. Flatbed");
-        System.out.println("3. Box");
-    }
-
-    public static void displayCreateOrAssociateAccountMenu() {
-        System.out.println("1. Create account");
-        System.out.println("2. Associate to existent account");
     }
 }
