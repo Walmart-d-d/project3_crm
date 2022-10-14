@@ -1,7 +1,8 @@
 package com.ironhack.project_crm_2.classes.menus;
 
-import com.ironhack.project_crm_2.services.AccountService;
-import com.ironhack.project_crm_2.services.OpportunityService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ironhack.project_crm_2.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Scanner;
@@ -10,13 +11,22 @@ public class QueryMenu {
     private final Scanner INPUT = new Scanner(System.in);
     private final AccountService ACCOUNT_SERVICE;
     private final OpportunityService OPPORTUNITY_SERVICE;
+    private final LeadService LEAD_SERVICE;
+    private final ContactService CONTACT_SERVICE;
+    private final SalesRepService SALES_REP_SERVICE;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public QueryMenu(AccountService ACCOUNT_SERVICE, OpportunityService OPPORTUNITY_SERVICE) {
-        this.ACCOUNT_SERVICE = ACCOUNT_SERVICE;
-        this.OPPORTUNITY_SERVICE = OPPORTUNITY_SERVICE;
-    }
 
     @Autowired
+    public QueryMenu(LeadService leadService, ContactService contactService,
+                    AccountService accountService, OpportunityService opportunityService, SalesRepService salesRepService) {
+        this.LEAD_SERVICE = leadService;
+        this.CONTACT_SERVICE = contactService;
+        this.ACCOUNT_SERVICE = accountService;
+        this.OPPORTUNITY_SERVICE = opportunityService;
+        this.SALES_REP_SERVICE = salesRepService;
+    }
+
 
 
     private void queryMenuOptions() {
@@ -28,7 +38,7 @@ public class QueryMenu {
         System.out.println("6. Quantity of products");
         System.out.println("7. Go back");
     }
-    public void queryMenu(){
+    public void queryMenu() throws JsonProcessingException {
         while(true){
         queryMenuOptions();
         String choice = INPUT.nextLine();
@@ -43,7 +53,7 @@ public class QueryMenu {
                 oppByCityMenu();
                 break;
             case "4":
-                oppByAccountMenuOptions();
+                oppByAccountMenu();
                 break;
             case "5":
                 averageEmployeeCountMenu();
@@ -52,7 +62,9 @@ public class QueryMenu {
                 averageQuantityMenu();
                 break;
             case "7":
-                return;
+                MainMenu mainMenu = new MainMenu(LEAD_SERVICE, CONTACT_SERVICE, ACCOUNT_SERVICE, OPPORTUNITY_SERVICE, SALES_REP_SERVICE);
+                mainMenu.mainMenu();
+                break;
             default:
                 System.err.println("Please select a valid option");;
         }
@@ -67,22 +79,34 @@ public class QueryMenu {
         System.out.println("5. Go back");
     }
 
-    public void oppByProductMenu(){
+    public void oppByProductMenu() throws JsonProcessingException {
         while(true){
         oppByProductMenuOptions();
         String choice = INPUT.nextLine();
         switch (choice){
             case "1":
-                OPPORTUNITY_SERVICE.reportOppByProduct();
+                String body = objectMapper.writeValueAsString(OPPORTUNITY_SERVICE.reportOppByProduct());
+                System.out.println("===================================");
+                System.out.println(body);
+                System.out.println("===================================");
                 break;
             case "2":
-                OPPORTUNITY_SERVICE.reportOppClosedWonByProduct();
+                body = objectMapper.writeValueAsString(OPPORTUNITY_SERVICE.reportOppClosedWonByProduct());
+                System.out.println("===================================");
+                System.out.println(body);
+                System.out.println("===================================");
                 break;
             case "3":
-                OPPORTUNITY_SERVICE.reportOppClosedLostByProduct();
+                body = objectMapper.writeValueAsString(OPPORTUNITY_SERVICE.reportOppClosedLostByProduct());
+                System.out.println("===================================");
+                System.out.println(body);
+                System.out.println("===================================");
                 break;
             case "4":
-                OPPORTUNITY_SERVICE.reportOppOpenByProduct();
+                body = objectMapper.writeValueAsString(OPPORTUNITY_SERVICE.reportOppOpenByProduct());
+                System.out.println("===================================");
+                System.out.println(body);
+                System.out.println("===================================");
                 break;
             case "5":
                 queryMenu();
@@ -100,22 +124,34 @@ public class QueryMenu {
         System.out.println("5. Go back");
     }
 
-    public void oppByCountryMenu(){
+    public void oppByCountryMenu() throws JsonProcessingException {
         while(true){
             oppByCountryMenuOptions();
             String choice = INPUT.nextLine();
             switch (choice){
                 case "1":
-                    OPPORTUNITY_SERVICE.reportOppByCountry();
+                    String body = objectMapper.writeValueAsString(OPPORTUNITY_SERVICE.reportOppByCountry());
+                    System.out.println("===================================");
+                    System.out.println(body);
+                    System.out.println("===================================");
                     break;
                 case "2":
-                    OPPORTUNITY_SERVICE.reportOppClosedWonByCountry();
+                    body = objectMapper.writeValueAsString(OPPORTUNITY_SERVICE.reportOppClosedWonByCountry());
+                    System.out.println("===================================");
+                    System.out.println(body);
+                    System.out.println("===================================");
                     break;
                 case "3":
-                    OPPORTUNITY_SERVICE.reportOppClosedLostByCountry();
+                    body = objectMapper.writeValueAsString(OPPORTUNITY_SERVICE.reportOppClosedLostByCountry());
+                    System.out.println("===================================");
+                    System.out.println(body);
+                    System.out.println("===================================");
                     break;
                 case "4":
-                    OPPORTUNITY_SERVICE.reportOppOpenByCountry();
+                    body = objectMapper.writeValueAsString(OPPORTUNITY_SERVICE.reportOppOpenByCountry());
+                    System.out.println("===================================");
+                    System.out.println(body);
+                    System.out.println("===================================");
                     break;
                 case "5":
                     queryMenu();
@@ -133,22 +169,34 @@ public class QueryMenu {
         System.out.println("5. Go back");
     }
 
-    public void oppByCityMenu(){
+    public void oppByCityMenu() throws JsonProcessingException {
         while(true){
             oppByCityMenuOptions();
             String choice = INPUT.nextLine();
             switch (choice){
                 case "1":
-                    OPPORTUNITY_SERVICE.reportOppByCity();
+                    String body = objectMapper.writeValueAsString(OPPORTUNITY_SERVICE.reportOppByCity());
+                    System.out.println("===================================");
+                    System.out.println(body);
+                    System.out.println("===================================");
                     break;
                 case "2":
-                    OPPORTUNITY_SERVICE.reportOppClosedWonByCity();
+                    body = objectMapper.writeValueAsString(OPPORTUNITY_SERVICE.reportOppClosedWonByCity());
+                    System.out.println("===================================");
+                    System.out.println(body);
+                    System.out.println("===================================");
                     break;
                 case "3":
-                    OPPORTUNITY_SERVICE.reportOppClosedLostByCity();
+                    body = objectMapper.writeValueAsString(OPPORTUNITY_SERVICE.reportOppClosedLostByCity());
+                    System.out.println("===================================");
+                    System.out.println(body);
+                    System.out.println("===================================");
                     break;
                 case "4":
-                    OPPORTUNITY_SERVICE.reportOppOpenByCity();
+                    body = objectMapper.writeValueAsString(OPPORTUNITY_SERVICE.reportOppOpenByCity());
+                    System.out.println("===================================");
+                    System.out.println(body);
+                    System.out.println("===================================");
                     break;
                 case "5":
                     queryMenu();
@@ -165,19 +213,28 @@ public class QueryMenu {
         System.out.println("4. Go back");
     }
 
-    public void oppByAccountMenu(){
+    public void oppByAccountMenu() throws JsonProcessingException {
         while(true){
             oppByAccountMenuOptions();
             String choice = INPUT.nextLine();
             switch (choice){
                 case "1":
-                    OPPORTUNITY_SERVICE.averageOppByAccount();
+                    String body = objectMapper.writeValueAsString(OPPORTUNITY_SERVICE.averageOppByAccount());
+                    System.out.println("===================================");
+                    System.out.println(body);
+                    System.out.println("===================================");
                     break;
                 case "2":
-                    OPPORTUNITY_SERVICE.maxOppByAccount();
+                    body = objectMapper.writeValueAsString(OPPORTUNITY_SERVICE.maxOppByAccount());
+                    System.out.println("===================================");
+                    System.out.println(body);
+                    System.out.println("===================================");
                     break;
                 case "3":
-                    OPPORTUNITY_SERVICE.minOppByAccount();
+                    body = objectMapper.writeValueAsString(OPPORTUNITY_SERVICE.minOppByAccount());
+                    System.out.println("===================================");
+                    System.out.println(body);
+                    System.out.println("===================================");
                     break;
                 case "4":
                     queryMenu();
@@ -194,19 +251,28 @@ public class QueryMenu {
         System.out.println("4. Go back");
     }
 
-    public void averageEmployeeCountMenu(){
+    public void averageEmployeeCountMenu() throws JsonProcessingException {
         while(true){
             averageEmployeeCountMenuOptions();
             String choice = INPUT.nextLine();
             switch (choice){
                 case "1":
-                    ACCOUNT_SERVICE.averageEmployeeCountByAccount();
+                    String body = objectMapper.writeValueAsString(ACCOUNT_SERVICE.averageEmployeeCountByAccount());
+                    System.out.println("===================================");
+                    System.out.println(body);
+                    System.out.println("===================================");
                     break;
                 case "2":
-                    ACCOUNT_SERVICE.maxEmployeeCountByAccount();
+                    body = objectMapper.writeValueAsString(ACCOUNT_SERVICE.maxEmployeeCountByAccount());
+                    System.out.println("===================================");
+                    System.out.println(body);
+                    System.out.println("===================================");
                     break;
                 case "3":
-                    ACCOUNT_SERVICE.minEmployeeCountByAccount();
+                    body = objectMapper.writeValueAsString(ACCOUNT_SERVICE.minEmployeeCountByAccount());
+                    System.out.println("===================================");
+                    System.out.println(body);
+                    System.out.println("===================================");
                     break;
                 case "4":
                     queryMenu();
@@ -217,25 +283,34 @@ public class QueryMenu {
         }
     }
     public void averageQuantityMenuOptions(){
-        System.out.println("1. Average amount of employees");
-        System.out.println("2. Account with the biggest amount of employees");
-        System.out.println("3. Account with the smallest amount of employees");
+        System.out.println("1. Average amount of products");
+        System.out.println("2. Biggest amount of products per account");
+        System.out.println("3. Smallest quantity of products per account");
         System.out.println("4. Go back");
     }
 
-    public void averageQuantityMenu(){
+    public void averageQuantityMenu() throws JsonProcessingException {
         while(true){
             averageQuantityMenuOptions();
             String choice = INPUT.nextLine();
             switch (choice){
                 case "1":
-                    ACCOUNT_SERVICE.averageQuantityByAccount();
+                    String body = objectMapper.writeValueAsString(ACCOUNT_SERVICE.averageQuantityByAccount());
+                    System.out.println("===================================");
+                    System.out.println(body);
+                    System.out.println("===================================");
                     break;
                 case "2":
-                    ACCOUNT_SERVICE.maxQuantityByAccount();
+                    body = objectMapper.writeValueAsString(ACCOUNT_SERVICE.maxQuantityByAccount());
+                    System.out.println("===================================");
+                    System.out.println(body);
+                    System.out.println("===================================");
                     break;
                 case "3":
-                    ACCOUNT_SERVICE.minQuantityByAccount();
+                    body = objectMapper.writeValueAsString(ACCOUNT_SERVICE.minQuantityByAccount());
+                    System.out.println("===================================");
+                    System.out.println(body);
+                    System.out.println("===================================");
                     break;
                 case "4":
                     queryMenu();
