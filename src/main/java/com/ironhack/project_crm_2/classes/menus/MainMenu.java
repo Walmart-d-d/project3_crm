@@ -1,4 +1,5 @@
 package com.ironhack.project_crm_2.classes.menus;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ironhack.project_crm_2.models.SalesRep;
 import com.ironhack.project_crm_2.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class MainMenu {
         System.out.println("6. Exit");
     }
 
-    public void mainMenu() {
+    public void mainMenu() throws JsonProcessingException {
         while (true) {
             mainMenuOptions();
             String choice = INPUT.nextLine();
@@ -56,7 +57,7 @@ public class MainMenu {
                     salesRepMenu.salesRepMenu();
                     break;
                 case "5": //queries
-                    QueryMenu queryMenu = new QueryMenu(ACCOUNT_SERVICE, OPPORTUNITY_SERVICE);
+                    QueryMenu queryMenu = new QueryMenu(LEAD_SERVICE, CONTACT_SERVICE, ACCOUNT_SERVICE, OPPORTUNITY_SERVICE, SALES_REP_SERVICE);
                     queryMenu.queryMenu();
                 case "6":   // Exit
                     System.exit(0);

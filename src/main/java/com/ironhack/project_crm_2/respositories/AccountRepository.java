@@ -39,10 +39,10 @@ from (
     /*  @Query("SELECT id, PERCENTILE_CONT(.5) WITHIN GROUP (ORDER BY quantity) OVER() MedianQuantity FROM Account GROUP BY id;")
      List<Object[]> medianQuantityByAccount(); */
 
-    @Query(value = "SELECT Account.id, MAX(quantity) FROM Account JOIN Opportunity ON Opportunity.account_id = Account.id GROUP BY Account.id;", nativeQuery = true)
+    @Query(value = "SELECT Account.id, MAX(quantity) FROM Account JOIN Opportunity ON Opportunity.account_id = Account.id GROUP BY MAX(quantity);", nativeQuery = true)
     List<Object[]> maxQuantityByAccount();
 
-    @Query(value = "SELECT Account.id, MIN(quantity) FROM Account JOIN Opportunity ON Opportunity.account_id = Account.id GROUP BY Account.id;", nativeQuery = true)
+    @Query(value = "SELECT Account.id, MIN(quantity) FROM Account JOIN Opportunity ON Opportunity.account_id = Account.id GROUP BY MIN(quantity);", nativeQuery = true)
     List<Object[]> minQuantityByAccount();
 
 
